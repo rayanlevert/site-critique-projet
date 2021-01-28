@@ -1,5 +1,7 @@
 package fr.dawan.sitecritiqueprojet.beans;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="review")
+@Table(name = "review")
 public class Review {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +21,10 @@ public class Review {
 	private String titleReview;
 	@Column(name = "contentReview", nullable = false, columnDefinition = "TEXT")
 	private String contentReview;
-	@Column(name = "noteReview",  nullable = false)
+	@Column(name = "noteReview", nullable = false)
 	private int noteReview;
+	@Column(name = "publishDate")
+	private Date publishDate;
 	@ManyToOne(cascade = CascadeType.ALL)
 	private User user;
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -29,11 +33,13 @@ public class Review {
 	public Review() {
 	}
 
-	public Review(long idReview, String titleReview, String contentReview, int noteReview, User user, Article article) {
+	public Review(long idReview, String titleReview, String contentReview, int noteReview, Date publishDate, User user,
+			Article article) {
 		this.idReview = idReview;
 		this.titleReview = titleReview;
 		this.contentReview = contentReview;
 		this.noteReview = noteReview;
+		this.publishDate = publishDate;
 		this.user = user;
 		this.article = article;
 	}
@@ -84,6 +90,14 @@ public class Review {
 
 	public void setArticle(Article article) {
 		this.article = article;
+	}
+
+	public Date getPublishDate() {
+		return publishDate;
+	}
+
+	public void setPublishDate(Date publishDate) {
+		this.publishDate = publishDate;
 	}
 
 }

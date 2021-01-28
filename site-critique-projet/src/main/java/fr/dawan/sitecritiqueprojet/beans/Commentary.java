@@ -1,5 +1,7 @@
 package fr.dawan.sitecritiqueprojet.beans;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +17,8 @@ public class Commentary {
 	private long idComment;
 	@Column(name = "contentComment",  nullable = false, columnDefinition = "TEXT")
 	private String contentComment;
+	@Column(name="publishDate")
+	private Date publishDate;
 	@ManyToOne(cascade = CascadeType.ALL)
 	private User user;
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -23,9 +27,10 @@ public class Commentary {
 	public Commentary() {
 	}
 
-	public Commentary(long idComment, String contentComment, User user, Review review) {
+	public Commentary(long idComment, String contentComment, Date publishDate, User user, Review review) {
 		this.idComment = idComment;
 		this.contentComment = contentComment;
+		this.publishDate = publishDate;
 		this.user = user;
 		this.review = review;
 	}
@@ -60,6 +65,14 @@ public class Commentary {
 
 	public void setReview(Review review) {
 		this.review = review;
+	}
+
+	public Date getPublishDate() {
+		return publishDate;
+	}
+
+	public void setPublishDate(Date publishDate) {
+		this.publishDate = publishDate;
 	}
 
 }
