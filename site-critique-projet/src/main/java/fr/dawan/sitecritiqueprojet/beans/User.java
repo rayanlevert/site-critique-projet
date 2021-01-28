@@ -30,6 +30,9 @@ public class User {
     @Column(name = "password", length = 255)
     private String password;
     
+    @Column(name = "email", length = 255)
+    private String email;
+    
     @ManyToMany(mappedBy = "users")
     private List<Role> roles;
     
@@ -94,5 +97,37 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public List<Commentary> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Commentary> comments) {
+        this.comments = comments;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }
