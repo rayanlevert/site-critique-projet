@@ -1,5 +1,8 @@
 package fr.dawan.sitecritiqueprojet.beans;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -25,6 +28,30 @@ public class Movie extends Article{
     
     @Column(name="synopsys", length=10000, nullable=true)
     private String synopsys;
+
+    
+    
+
+
+
+
+    public Movie(long id, String title, List<Review> reviews, Date publishDate, Date creationArticleDate, int minAge,boolean valid, String realisator, String genre, String actors, int duration, String nationality, String synopsys) {
+        super(id, title, reviews, publishDate, creationArticleDate, minAge, valid);
+        this.realisator = realisator;
+        this.genre = genre;
+        this.actors = actors;
+        this.duration = duration;
+        this.nationality = nationality;
+        this.synopsys = synopsys;
+    }
+    
+    
+
+    public Movie(long id, String title, List<Review> reviews, Date publishDate, Date creationArticleDate, int minAge, boolean valid) {
+        super(id, title, reviews, publishDate, creationArticleDate, minAge, valid);
+    }
+
+
 
     public String getRealisator() {
         return realisator;

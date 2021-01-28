@@ -7,10 +7,10 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("3")
 public class Book extends Article {
-    @Column(name = "author", nullable = false)
+    @Column(name = "author", nullable = true)
     private String author;
     
-    @Column(name = "genreBooks", nullable = false)
+    @Column(name = "genreBooks", nullable = true)
     private String genreBooks;
 
     public Book() {
