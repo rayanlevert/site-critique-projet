@@ -35,6 +35,22 @@ public abstract class Article {
     @Column(name="publishDate") //date de sortie mondiale du film,jeu,livre -> article
     private Date publishDate;
     
+    public Date getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(Date publishDate) {
+        this.publishDate = publishDate;
+    }
+
+    public Date getCreationArticleDate() {
+        return creationArticleDate;
+    }
+
+    public void setCreationArticleDate(Date creationArticleDate) {
+        this.creationArticleDate = creationArticleDate;
+    }
+
     @Column(name="creationArticleDate") //date de publication sur le site
     private Date creationArticleDate;
     public long getId() {
