@@ -1,6 +1,7 @@
 package fr.dawan.sitecritiqueprojet.beans;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +13,7 @@ public class Commentary {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idComment;
+	@Column(name = "contentComment",  nullable = false, columnDefinition = "TEXT")
 	private String contentComment;
 	@ManyToOne(cascade = CascadeType.ALL)
 	private User user;
