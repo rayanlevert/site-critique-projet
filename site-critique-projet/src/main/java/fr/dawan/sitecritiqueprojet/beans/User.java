@@ -18,19 +18,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @Column(name = "username", length = 255)
+    @Column(name = "username", length = 255, nullable = false)
     private String username;
     
-    @Column(name = "lastname", length = 255)
+    @Column(name = "lastname", length = 255, nullable = false)
     private String lastname;
     
-    @Column(name = "firstname", length = 255)
+    @Column(name = "firstname", length = 255, nullable = false)
     private String firstname;
     
-    @Column(name = "password", length = 255)
+    @Column(name = "password", length = 255, nullable = false)
     private String password;
     
-    @Column(name = "email", length = 255)
+    @Column(name = "email", length = 255, nullable = false, unique = true)
     private String email;
     
     @ManyToMany(mappedBy = "users")

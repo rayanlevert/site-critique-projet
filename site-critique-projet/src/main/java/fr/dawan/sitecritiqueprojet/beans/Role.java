@@ -16,7 +16,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @Column(name = "name", length = 255)
+    @Column(name = "name", length = 255, nullable = false)
     private String name;
     
     @ManyToMany
