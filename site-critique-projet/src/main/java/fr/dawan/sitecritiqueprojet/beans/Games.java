@@ -8,15 +8,15 @@ import javax.persistence.Entity;
 @DiscriminatorValue("2")
 public class Games extends Article {
 	
-	@Column(name="genreGames", length=255, nullable=false)
+	@Column(name="genreGames", length=255)
 	private String genreGames;
-	@Column(name="developerGames", length=255, nullable=false)
+	@Column(name="developerGames", length=255)
 	private String developerGames;
-	@Column(name="publisherGames", length=255, nullable=false)
+	@Column(name="publisherGames", length=255)
 	private String publisherGames;
-	@Column(name="platformGames", length=255, nullable=false)
+	@Column(name="platformGames", length=255)
 	private String platformGames;
-	@Column(name="resumeGames", length=255, nullable=false, columnDefinition = "TEXT")
+	@Column(name="resumeGames", length=255, columnDefinition = "TEXT")
 	private String resumeGames;
 	
 	public Games() {
