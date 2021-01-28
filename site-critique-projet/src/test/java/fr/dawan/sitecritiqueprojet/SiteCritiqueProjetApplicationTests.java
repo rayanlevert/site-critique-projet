@@ -1,13 +1,13 @@
 package fr.dawan.sitecritiqueprojet;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SiteCritiqueProjetApplicationTests {
+public class SiteCritiqueProjetApplicationTests {
 
 	@Test
-	void contextLoads() {
+	public void contextLoads() {
 	}
 
 }
