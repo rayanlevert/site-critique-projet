@@ -32,9 +32,42 @@ public abstract class Article {
     @OneToMany(targetEntity=Review.class, mappedBy="article")
     private List<Review> reviews;
     
-    @Column(name="publishDate") //date de sortie mondiale du film,jeu,livre -> article
+    @Column(name="publishDate", nullable=false) //date de sortie mondiale du film,jeu,livre -> article
     private Date publishDate;
+    @Column(name="creationArticleDate") //date de publication sur le site
+    private Date creationArticleDate;
     
+    @Column(name="minAge")
+    private int minAge;
+    
+    @Column(name="valid")
+    private boolean valid;
+    
+    //Constructors
+    
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
+
+    public Article(long id, String title, List<Review> reviews, Date publishDate, Date creationArticleDate, int minAge, boolean valid) {
+        super();
+        this.id = id;
+        this.title = title;
+        this.reviews = reviews;
+        this.publishDate = publishDate;
+        this.creationArticleDate = creationArticleDate;
+        this.minAge = minAge;
+        this.valid = valid;
+    }
+    
+    public Article() {
+        super();
+    }
+
     public Date getPublishDate() {
         return publishDate;
     }
@@ -51,11 +84,7 @@ public abstract class Article {
         this.creationArticleDate = creationArticleDate;
     }
 
-    @Column(name="creationArticleDate") //date de publication sur le site
-    private Date creationArticleDate;
     
-    @Column(name="minAge")
-    private int minAge;
     
     public int getMinAge() {
         return minAge;
