@@ -8,7 +8,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("1")
+@DiscriminatorValue("movie")
 public class Movie extends Article{
 
     @Column(name="realisator", length=1000, nullable=true)

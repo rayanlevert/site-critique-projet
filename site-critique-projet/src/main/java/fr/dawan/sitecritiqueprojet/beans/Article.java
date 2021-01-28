@@ -18,8 +18,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="article")
-@Inheritance( strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="discriminator", discriminatorType = DiscriminatorType.INTEGER)
+@Inheritance( strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name="discriminator", discriminatorType = DiscriminatorType.STRING)
+
+/*
+ * Liste des enfants :
+ * Book, Movie, Game
+ */
 public abstract class Article {
 
     @Id
