@@ -1,17 +1,12 @@
 package fr.dawan.sitecritiqueprojet.beans;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 @Entity
-public class Book {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+@DiscriminatorValue("3")
+public class Book extends Article {
     
     @Column(name = "title", nullable = false)
     private String title;
@@ -23,27 +18,14 @@ public class Book {
     private String genre;
 
     public Book() {
+        super();
     }
 
     public Book(String title, String author, String genre) {
+        super();
         this.title = title;
         this.author = author;
         this.genre = genre;
-    }
-
-    public Book(long id, String title, String author, String genre) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
-        this.genre = genre;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getTitle() {
