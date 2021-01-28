@@ -1,5 +1,6 @@
 package fr.dawan.sitecritiqueprojet.beans;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -30,5 +31,36 @@ public abstract class Article {
     
     @OneToMany(targetEntity=Review.class, mappedBy="article")
     private List<Review> reviews;
+    
+    @Column(name="publishDate") //date de sortie mondiale du film,jeu,livre -> article
+    private Date publishDate;
+    
+    @Column(name="creationArticleDate") //date de publication sur le site
+    private Date creationArticleDate;
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+    
+    
     
 }
