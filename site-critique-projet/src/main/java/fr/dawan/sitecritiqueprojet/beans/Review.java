@@ -2,11 +2,15 @@ package fr.dawan.sitecritiqueprojet.beans;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
 public class Review {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idReview;
 	private String titleReview;
 	private String contentReview;
