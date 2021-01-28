@@ -7,33 +7,20 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("3")
 public class Book extends Article {
-    
-    @Column(name = "title", nullable = false)
-    private String title;
-    
     @Column(name = "author", nullable = false)
     private String author;
     
-    @Column(name = "genre", nullable = false)
-    private String genre;
+    @Column(name = "genreBooks", nullable = false)
+    private String genreBooks;
 
     public Book() {
         super();
     }
 
-    public Book(String title, String author, String genre) {
+    public Book(String author, String genreBooks) {
         super();
-        this.title = title;
         this.author = author;
-        this.genre = genre;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+        this.genreBooks = genreBooks;
     }
 
     public String getAuthor() {
@@ -44,11 +31,11 @@ public class Book extends Article {
         this.author = author;
     }
 
-    public String getGenre() {
-        return genre;
+    public String getGenreBooks() {
+        return genreBooks;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setGenreBooks(String genreBooks) {
+        this.genreBooks = genreBooks;
     }    
 }
