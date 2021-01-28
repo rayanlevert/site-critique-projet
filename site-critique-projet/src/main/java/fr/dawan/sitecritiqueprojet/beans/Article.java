@@ -53,6 +53,18 @@ public abstract class Article {
 
     @Column(name="creationArticleDate") //date de publication sur le site
     private Date creationArticleDate;
+    
+    @Column(name="minAge")
+    private int minAge;
+    
+    public int getMinAge() {
+        return minAge;
+    }
+
+    public void setMinAge(int minAge) {
+        this.minAge = minAge;
+    }
+
     public long getId() {
         return id;
     }
