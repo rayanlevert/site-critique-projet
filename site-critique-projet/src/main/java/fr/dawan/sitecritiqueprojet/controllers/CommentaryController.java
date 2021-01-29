@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.dawan.sitecritiqueprojet.beans.Commentary;
+import fr.dawan.sitecritiqueprojet.dto.CommentaryDto;
 import fr.dawan.sitecritiqueprojet.services.CommentaryService;
 
 @RestController
@@ -23,18 +24,17 @@ public class CommentaryController {
 	private CommentaryService commentaryService;
 
 	@GetMapping(value = "/commentary/{id}", produces = "application/json")
-	public Commentary getCommentary(@PathVariable("id") long id) {
-		Commentary commentary = commentaryService.findById(id);
-		return commentary;
+	public CommentaryDto getCommentary(@PathVariable("id") long id) {
+		return commentaryService.findById(id);
 	}
 
 	@GetMapping(value = "/user/{id}" , produces = "application/json")
-	public List<Commentary> getCommentsByUserId(@PathVariable("id") long id){
+	public List<CommentaryDto> getCommentsByUserId(@PathVariable("id") long id){
 		return commentaryService.findCommentaryByUserId(id);
 	}
 	
 	@GetMapping(value = "/review/{id}", produces = "application/json")
-	public List<Commentary> getCommentsByReviewId(@PathVariable("id") long id){
+	public List<CommentaryDto> getCommentsByReviewId(@PathVariable("id") long id){
 		return commentaryService.findCommentaryByReviewId(id);
 	}
 	

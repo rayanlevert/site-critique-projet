@@ -1,68 +1,69 @@
 package fr.dawan.sitecritiqueprojet.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.dawan.sitecritiqueprojet.beans.Commentary;
+import fr.dawan.sitecritiqueprojet.dto.CommentaryDto;
 import fr.dawan.sitecritiqueprojet.repositories.CommentaryRepository;
 
 @Service
 @Transactional
 public class CommentaryServiceImpl implements CommentaryService {
-	
+
 	@Autowired
 	private CommentaryRepository commentaryRepository;
 
 	@Override
-	public Commentary findById(long id) {
-		Commentary commentary;
-
-		try {
-			Optional<Commentary> commentaryOpt = commentaryRepository.findById(id);
-			commentary = commentaryOpt.get();
-		} catch (Exception e) {
-			e.printStackTrace();
-			commentary = null;
+	public CommentaryDto findById(long id) {
+		Optional<Commentary> commentaryOpt = commentaryRepository.findById(id);
+		ModelMapper m = new ModelMapper();
+		if (commentaryOpt.isPresent()) {
+			return m.map(commentaryOpt.get(), CommentaryDto.class);
+		} else {
+			return null;
 		}
-		return commentary;
+
 	}
 
 	@Override
-	public List<Commentary> findCommentaryByUserId(long id) {
+	public List<CommentaryDto> findCommentaryByUserId(long id) {
 		try {
-			Iterable<Commentary> comments = commentaryRepository.findCommentaryByUserId(id);
-			if(((List<Commentary>) comments).isEmpty()) {
-				System.out.println("Aucun commentaire disponible");
-				return null;
-			}else {
-				return (List<Commentary>) comments;
+			List<Commentary> listComments = commentaryRepository.findCommentaryByUserId(id);
+			List<CommentaryDto> cDto = new ArrayList<CommentaryDto>();
+			ModelMapper m = new ModelMapper();
+			for (Commentary c : listComments) {
+				cDto.add(m.map(c, CommentaryDto.class));
 			}
+			return cDto;
 		} catch (Exception e) {
 			e.printStackTrace();
-            System.out.println("Erreur lors de la récupération des films");
-            return null;
+			System.out.println("Erreur lors de la récupération des films");
+			return null;
 		}
 	}
 
 	@Override
-	public List<Commentary> findCommentaryByReviewId(long id) {
+	public List<CommentaryDto> findCommentaryByReviewId(long id) {
 		try {
-			Iterable<Commentary> comments = commentaryRepository.findCommentaryByReviewId(id);
-			if(((List<Commentary>) comments).isEmpty()) {
-				System.out.println("Aucune critique disponible");
-				return null;
-			}else {
-				return (List<Commentary>) comments;
+			List<Commentary> listComments = commentaryRepository.findCommentaryByReviewId(id);
+			List<CommentaryDto> cDto = new ArrayList<CommentaryDto>();
+			ModelMapper m = new ModelMapper();
+			for (Commentary c : listComments) {
+				cDto.add(m.map(c, CommentaryDto.class));
 			}
+			return cDto;
 		} catch (Exception e) {
 			e.printStackTrace();
-            System.out.println("Erreur lors de la récupération des films");
-            return null;
+			System.out.println("Erreur lors de la récupération des films");
+			return null;
 		}
 	}
 

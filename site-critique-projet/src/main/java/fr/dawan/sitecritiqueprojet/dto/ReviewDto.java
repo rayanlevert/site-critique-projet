@@ -3,16 +3,6 @@ package fr.dawan.sitecritiqueprojet.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
-import fr.dawan.sitecritiqueprojet.beans.Article;
-import fr.dawan.sitecritiqueprojet.beans.User;
-
 public class ReviewDto implements Serializable{
 
 	private static final long serialVersionUID = 1L;

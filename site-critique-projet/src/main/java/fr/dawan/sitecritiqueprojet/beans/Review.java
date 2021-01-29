@@ -2,18 +2,18 @@ package fr.dawan.sitecritiqueprojet.beans;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -98,8 +98,8 @@ public class Review implements Serializable {
 
 	public void setArticle(Article article) {
 		this.article = article;
-	}
-
+	}	
+	
 	public Date getPublishDate() {
 		return publishDate;
 	}
@@ -107,5 +107,6 @@ public class Review implements Serializable {
 	public void setPublishDate(Date publishDate) {
 		this.publishDate = publishDate;
 	}
+	
 
 }
