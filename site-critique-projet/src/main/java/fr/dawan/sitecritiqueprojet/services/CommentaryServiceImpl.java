@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.dawan.sitecritiqueprojet.beans.Commentary;
-import fr.dawan.sitecritiqueprojet.beans.Review;
 import fr.dawan.sitecritiqueprojet.repositories.CommentaryRepository;
 
 @Service
@@ -65,5 +64,15 @@ public class CommentaryServiceImpl implements CommentaryService {
             System.out.println("Erreur lors de la récupération des films");
             return null;
 		}
+	}
+
+	@Override
+	public Commentary saveOrUpdate(Commentary c) {
+		return commentaryRepository.saveAndFlush(c);
+	}
+
+	@Override
+	public void deleteById(long id) {
+		commentaryRepository.deleteById(id);
 	}
 }

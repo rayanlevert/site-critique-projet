@@ -12,7 +12,7 @@ import fr.dawan.sitecritiqueprojet.beans.Commentary;
 import fr.dawan.sitecritiqueprojet.services.CommentaryService;
 
 @RestController
-@RequestMapping("/comments")
+@RequestMapping("/api/comments")
 public class CommentaryController {
 
 	@Autowired

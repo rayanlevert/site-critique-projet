@@ -9,4 +9,6 @@ public interface ReviewService {
 	Review findById(long id);
 	List<Review> findReviewByUserId(long id);
 	List<Review> findReviewByArticleId(long id);
+	Review saveOrUpdate(Review r);
+    void deleteById(long id);
 }

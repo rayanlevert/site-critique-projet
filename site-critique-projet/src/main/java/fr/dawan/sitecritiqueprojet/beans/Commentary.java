@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Commentary {
 	@Id
@@ -19,8 +21,10 @@ public class Commentary {
 	private String contentComment;
 	@Column(name="publishDate")
 	private Date publishDate;
+	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.ALL)
 	private User user;
+	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Review review;
 

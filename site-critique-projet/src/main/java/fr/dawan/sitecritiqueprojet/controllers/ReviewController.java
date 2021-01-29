@@ -12,7 +12,7 @@ import fr.dawan.sitecritiqueprojet.beans.Review;
 import fr.dawan.sitecritiqueprojet.services.ReviewService;
 
 @RestController
-@RequestMapping("/reviews")
+@RequestMapping("/api/reviews")
 public class ReviewController {
 	
 	@Autowired
@@ -25,12 +25,12 @@ public class ReviewController {
 	}
 	
 	@GetMapping(value = "/user/{id}", produces ="application/json")
-	public List<Review> getReviewsByUserId(@PathVariable("idUser") long id){
+	public List<Review> getReviewsByUserId(@PathVariable("id") long id){
 		return reviewService.findReviewByUserId(id);
 	}
 	
 	@GetMapping(value = "/article/{id}", produces ="application/json")
-	public List<Review> getReviewsByArticleId(@PathVariable("idArticle") long id){
+	public List<Review> getReviewsByArticleId(@PathVariable("id") long id){
 		return reviewService.findReviewByArticleId(id);
 	}
 }

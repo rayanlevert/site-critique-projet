@@ -66,4 +66,14 @@ public class ReviewServiceImpl implements ReviewService {
 		}
 	}
 
+	@Override
+	public Review saveOrUpdate(Review r) {
+		return reviewRepository.saveAndFlush(r);
+	}
+
+	@Override
+	public void deleteById(long id) {
+		reviewRepository.deleteById(id);
+	}
+
 }
