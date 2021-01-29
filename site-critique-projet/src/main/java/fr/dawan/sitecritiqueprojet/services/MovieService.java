@@ -4,7 +4,7 @@ import java.util.List;
 
 import fr.dawan.sitecritiqueprojet.beans.Movie;
 
-public interface IMovieService {
+public interface MovieService {
 
     public List<Movie> findAll();
     public Movie findOneById(long id);
