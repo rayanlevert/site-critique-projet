@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.modelmapper.internal.Errors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,7 @@ import fr.dawan.sitecritiqueprojet.exceptions.EmailExistsException;
 import fr.dawan.sitecritiqueprojet.services.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
@@ -26,6 +27,11 @@ public class UserController {
     @GetMapping(value = "/getAll", produces = "application/json")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+    
+    @GetMapping(value = "/{id}")
+    public User getById(@PathVariable long id) {
+        return userService.getUserById(id);
     }
 
     @PostMapping("/register")
@@ -38,5 +44,9 @@ public class UserController {
             return "User already exists";
         }
         return "User " + registered + "has been created";
+    }
+    
+    public String updateUserAccount(@RequestBody User u, HttpServletRequest request, Errors errors) {
+        
     }
 }
