@@ -50,6 +50,10 @@ public class Movie extends Article{
     public Movie(long id, String title, List<Review> reviews, Date publishDate, Date creationArticleDate, int minAge, boolean valid) {
         super(id, title, reviews, publishDate, creationArticleDate, minAge, valid);
     }
+    public Movie()
+    {
+        
+    }
 
 
 

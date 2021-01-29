@@ -29,24 +29,24 @@ public abstract class Article {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private long id;
+    protected long id;
     
     @Column(name="title", length=255, nullable=false)
     private String title;
     
     @OneToMany(targetEntity=Review.class, mappedBy="article")
-    private List<Review> reviews;
+    protected List<Review> reviews;
     
     @Column(name="publishDate", nullable=false) //date de sortie mondiale du film,jeu,livre -> article
-    private Date publishDate;
+    protected Date publishDate;
     @Column(name="creationArticleDate") //date de publication sur le site
-    private Date creationArticleDate;
+    protected Date creationArticleDate;
     
     @Column(name="minAge")
-    private int minAge;
+    protected int minAge;
     
     @Column(name="valid")
-    private boolean valid;
+    protected boolean valid;
     
     //Constructors
     
