@@ -1,10 +1,12 @@
 package fr.dawan.sitecritiqueprojet.beans;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,10 +14,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "review")
-public class Review {
+public class Review implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idReview;
@@ -27,10 +32,9 @@ public class Review {
 	private int noteReview;
 	@Column(name = "publishDate")
 	private Date publishDate;
-	@JsonBackReference
+	@JsonIgnoreProperties("reviews")
 	@ManyToOne(cascade = CascadeType.ALL)
 	private User user;
-	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Article article;
 

@@ -3,6 +3,7 @@ package fr.dawan.sitecritiqueprojet.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.dawan.sitecritiqueprojet.beans.Review;
@@ -38,14 +41,19 @@ public class ReviewController {
 		return reviewService.findReviewByArticleId(id);
 	}
 	
-	@PostMapping(consumes = "application/json", produces = "application/json")
+	//@PostMapping(consumes = "application/json", produces = "application/json")
+	//@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/create")
+	@RequestMapping(value = "/create", method = RequestMethod.POST,produces = "application/json")
 	public Review createReview(@RequestBody Review r) {
+		System.out.println("create -------------------------------");
 		return reviewService.saveOrUpdate(r);
 	}
+	
 	@PutMapping(consumes = "application/json", produces = "application/json")
 	public Review updateReview(@RequestBody Review r) {
 		return reviewService.saveOrUpdate(r);
 	}
+	
 	@DeleteMapping(value = "/review/{id}", produces = "text/plain")
 	public String deleteReviewById(@PathVariable("id") long id) {
 		try {
