@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -100,6 +101,20 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
         user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
         return userRepository.save(user);
+    }
+
+    @Override
+    public User updateUserAccount(User u) throws EmailExistsException {
+        
+        return userRepository.saveAndFlush(u);
+    }
+    
+    @Override
+    public User getUserById(long id) {
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()) {
+            return user.get();
+        } else return null;
     }
 
     @Override
