@@ -16,12 +16,12 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import fr.dawan.sitecritiqueprojet.beans.Movie;
-import fr.dawan.sitecritiqueprojet.services.IMovieService;
+import fr.dawan.sitecritiqueprojet.services.MovieService;
 @Controller
 public class MovieController {
 
     @Autowired
-    private IMovieService iMovieService;
+    private MovieService iMovieService;
     
     @GetMapping("/movies")
     @ResponseBody

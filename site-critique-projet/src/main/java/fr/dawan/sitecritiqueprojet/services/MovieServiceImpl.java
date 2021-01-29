@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import fr.dawan.sitecritiqueprojet.beans.Movie;
 import fr.dawan.sitecritiqueprojet.repositories.MovieRepository;
 @Service
-public class MovieServiceImpl implements IMovieService {
+public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private MovieRepository movieRepository;
