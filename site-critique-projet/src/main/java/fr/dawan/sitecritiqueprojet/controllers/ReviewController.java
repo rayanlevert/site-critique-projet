@@ -1,5 +1,7 @@
 package fr.dawan.sitecritiqueprojet.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,4 +23,15 @@ public class ReviewController {
 		Review review = reviewService.findById(id);
 		return review;
 	}
+	
+	@GetMapping(value = "/user/{id}", produces ="application/json")
+	public List<Review> getReviewsByUserId(@PathVariable("idUser") long id){
+		return reviewService.findReviewByUserId(id);
+	}
+	
+	@GetMapping(value = "/article/{id}", produces ="application/json")
+	public List<Review> getReviewsByArticleId(@PathVariable("idArticle") long id){
+		return reviewService.findReviewByArticleId(id);
+	}
 }
+

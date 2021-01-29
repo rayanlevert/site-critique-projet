@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class User {
     
@@ -35,14 +37,17 @@ public class User {
     
     @ManyToMany(mappedBy = "users")
     private List<Role> roles;
-    
+    @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Commentary> comments;
-    
+    @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews;
+    
+    public User() {
+	}
 
-    // Constructor with id
+	// Constructor with id
     public User(long id, String username, String lastname, String firstname, String password) {
         this.id = id;
         this.username = username;

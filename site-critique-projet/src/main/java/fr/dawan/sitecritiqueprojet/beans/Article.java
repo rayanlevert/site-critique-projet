@@ -12,9 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="article")
@@ -33,7 +34,7 @@ public abstract class Article {
     
     @Column(name="title", length=255, nullable=false)
     private String title;
-    
+    @JsonManagedReference
     @OneToMany(targetEntity=Review.class, mappedBy="article")
     protected List<Review> reviews;
     

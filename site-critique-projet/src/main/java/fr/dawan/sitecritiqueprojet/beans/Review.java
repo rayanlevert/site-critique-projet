@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "review")
 public class Review {
@@ -25,8 +27,10 @@ public class Review {
 	private int noteReview;
 	@Column(name = "publishDate")
 	private Date publishDate;
+	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.ALL)
 	private User user;
+	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Article article;
 
