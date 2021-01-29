@@ -34,7 +34,6 @@ public abstract class Article {
     
     @Column(name="title", length=255, nullable=false)
     private String title;
-    @JsonManagedReference
     @OneToMany(targetEntity=Review.class, mappedBy="article")
     protected List<Review> reviews;
     
@@ -71,7 +70,6 @@ public abstract class Article {
     }
     
     public Article() {
-        super();
     }
 
     public Date getPublishDate() {

@@ -35,12 +35,13 @@ public class User {
     @Column(name = "email", length = 255, nullable = false, unique = true)
     private String email;
     
+    @Column(name = "enabled")
+    private boolean enabled;
+    
     @ManyToMany(mappedBy = "users")
     private List<Role> roles;
-    @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Commentary> comments;
-    @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews;
     
@@ -134,5 +135,20 @@ public class User {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", username=" + username + ", lastname=" + lastname + ", firstname=" + firstname
+                + ", password=" + password + ", email=" + email + ", enabled=" + enabled + ", roles=" + roles
+                + ", comments=" + comments + ", reviews=" + reviews + "]";
     }
 }
