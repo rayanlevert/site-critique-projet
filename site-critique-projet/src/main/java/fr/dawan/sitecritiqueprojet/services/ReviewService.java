@@ -6,7 +6,7 @@ import fr.dawan.sitecritiqueprojet.beans.Review;
 
 public interface ReviewService {
 
-	public Review findById(long id);
-	public List<Review> findReviewByUserId(long id);
-	public List<Review> findReviewByArticleId(long id);
+	Review findById(long id);
+	List<Review> findReviewByUserId(long id);
+	List<Review> findReviewByArticleId(long id);
 }
