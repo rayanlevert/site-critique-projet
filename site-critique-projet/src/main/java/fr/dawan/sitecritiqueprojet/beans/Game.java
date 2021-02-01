@@ -4,11 +4,18 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-@Entity 
+import org.hibernate.annotations.DynamicUpdate;
+
+@Entity
+@DynamicUpdate
 @DiscriminatorValue("game")
 public class Game extends Article {
 	
-	@Column(name="genre", length=255, nullable = false)
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    @Column(name="genre", length=255, nullable = false)
 	private String genre;
 	@Column(name="developer", length=255)
 	private String developer;

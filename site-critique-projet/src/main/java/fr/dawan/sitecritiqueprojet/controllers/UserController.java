@@ -47,6 +47,6 @@ public class UserController {
     }
     
     public String updateUserAccount(@RequestBody User u, HttpServletRequest request, Errors errors) {
-        
+        return null;
     }
 }

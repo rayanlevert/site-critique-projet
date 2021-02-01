@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.JsonViewResponseBodyAdvice;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -25,6 +26,8 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
+import com.fasterxml.jackson.databind.ser.std.ObjectArraySerializer;
 
 import fr.dawan.sitecritiqueprojet.beans.Movie;
 import fr.dawan.sitecritiqueprojet.services.MovieService;
@@ -36,34 +39,25 @@ public class MovieController {
     private MovieService iMovieService;
     
     @GetMapping("/")
-    @ResponseBody
-    @JsonSerialize
     public List<Movie> getMovies()
     {
         List<Movie> movies = iMovieService.findAll();
-        /*
-        HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("movies", movies);
-
-        return new ModelAndView("Movies", params);
-        */
         return movies;
     }
     
     @GetMapping("/{id}")
-    @ResponseBody
-    @JsonSerialize
     public Movie getMovie(@PathVariable("id") long id)
     {
         Movie movie = iMovieService.findOneById(id);
         return movie;
     }
+    
+    
     /*
-     * [search,filter,filterValue] recherche avec filtre
-     * tous peuvent avoir pour valeur : "" --> findAll()
-     * filter & filterValue sont liés
-     * [search,"",""] recherche sans filtres
-     * ["",filter,filterValue] filtrage des films sur une propriété
+     * [search,filter,filterValue] recherche avec filtre -->findBySearchFiltered
+     * [search,"",""] recherche sans filtres -->findBySearch
+     * ["",filter,filterValue] filtrage des films sur une propriété -->findByFilter
+     * filter & filterValue doivent être avoir tout deux une valeur ou être null
      * */
     @PostMapping(value = "/search", consumes="application/json", produces="application/json")
     public List<Movie> getSearchMovies(@RequestBody List<String> data)

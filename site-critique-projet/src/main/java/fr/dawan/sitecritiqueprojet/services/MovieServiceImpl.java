@@ -18,14 +18,14 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> findAll() {
         try {
-            Iterable<Movie> movies = movieRepository.findAll();
-            if(((List<Movie>) movies).isEmpty())
+            List<Movie> movies = movieRepository.findAll();
+            if(movies.isEmpty())
             {
                 System.out.println("Aucun film disponible");
                 return null;
             }
             else {
-                return (List<Movie>) movies; 
+                return movies; 
             }       
         } catch (Exception e) {
             e.printStackTrace();
