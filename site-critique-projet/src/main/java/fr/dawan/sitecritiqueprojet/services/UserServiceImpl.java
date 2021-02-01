@@ -32,38 +32,33 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Autowired
     private UserRepository userRepository;
- 
+
     @Autowired
     private MessageSource messages;
- 
+
     @Autowired
     private RoleRepository roleRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email)
-      throws UsernameNotFoundException {
- 
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            return new org.springframework.security.core.userdetails.User(
-              " ", " ", true, true, true, true, 
-              getAuthorities(Arrays.asList(
-                roleRepository.findByName("ROLE_USER"))));
+            return new org.springframework.security.core.userdetails.User(" ", " ", true, true, true, true,
+                    getAuthorities(Arrays.asList(roleRepository.findByName("ROLE_USER"))));
         }
 
-        return new org.springframework.security.core.userdetails.User(
-          user.getEmail(), user.getPassword(), user.isEnabled(), true, true, 
-          true, getAuthorities(user.getRoles()));
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+                user.isEnabled(), true, true, true, getAuthorities(user.getRoles()));
     }
 
-    private Collection<? extends GrantedAuthority> getAuthorities(
-      Collection<Role> roles) {
- 
+    private Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
+
         return getGrantedAuthorities(getPrivileges(roles));
     }
 
     private List<String> getPrivileges(Collection<Role> roles) {
- 
+
         List<String> privileges = new ArrayList<>();
         List<Privilege> collection = new ArrayList<>();
         for (Role role : roles) {
@@ -86,10 +81,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public User registerNewUserAccount(User u) throws EmailExistsException {
         PasswordEncoder pe = new BCryptPasswordEncoder();
-        
-        if (emailExist(u.getEmail())) {
-            throw new EmailExistsException
-              ("There is an account with that email adress: " + u.getEmail());
+
+        if (emailExist(u)) {
+            throw new EmailExistsException("There is an account with that email adress: " + u.getEmail());
         }
         User user = new User();
 
@@ -105,16 +99,20 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public User updateUserAccount(User u) throws EmailExistsException {
-        
+        System.out.println(u);
+        if (emailExist(u)) {
+            throw new EmailExistsException("There is an account with that email adress: " + u.getEmail());
+        }
         return userRepository.saveAndFlush(u);
     }
-    
+
     @Override
     public User getUserById(long id) {
         Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()) {
+        if (user.isPresent()) {
             return user.get();
-        } else return null;
+        } else
+            return null;
     }
 
     @Override
@@ -123,10 +121,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public boolean emailExist(String email) {
+    public boolean emailExist(User user) {
         List<User> users = userRepository.findAll();
-        for(User u : users) {
-            if (u.getEmail().equals(email)) return true;
+        for (User u : users) {
+            if (u.getEmail().equals(user.getEmail()) && u.getId() != user.getId()) {
+                return true;
+            }
         }
         return false;
     }

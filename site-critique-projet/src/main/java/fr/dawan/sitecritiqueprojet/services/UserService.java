@@ -11,6 +11,6 @@ public interface UserService {
     User getUserById(long id);
     User registerNewUserAccount(User u) throws EmailExistsException;
     User updateUserAccount(User u) throws EmailExistsException;
-    boolean emailExist(String email);
+    boolean emailExist(User user);
 
 }
