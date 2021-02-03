@@ -2,8 +2,10 @@ package fr.dawan.sitecritiqueprojet.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -136,6 +138,17 @@ public class MovieServiceImpl implements MovieService {
             movies = movieRepository.searchByAll(search);
             }
         catch (Exception e) {
+            e.printStackTrace();
+        }
+        return movies;
+    }
+    @Override
+    public List<Movie> findAll(int page, int i) {
+        List<Movie> movies = null;
+        try {
+            movies = movieRepository.findAll(PageRequest.of(page, i)).get().collect(Collectors.toList());
+            
+        }catch (Exception e) {
             e.printStackTrace();
         }
         return movies;

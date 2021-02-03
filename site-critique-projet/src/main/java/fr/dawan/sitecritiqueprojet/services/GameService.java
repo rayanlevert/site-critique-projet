@@ -3,8 +3,10 @@ package fr.dawan.sitecritiqueprojet.services;
 import java.util.List;
 
 import fr.dawan.sitecritiqueprojet.beans.Game;
+
 public interface GameService {
-    
+    //pagination
+    public List<Game> findAll(int page, int i);
     public List<Game> findAll();
     public Game findOneById(long id);
     

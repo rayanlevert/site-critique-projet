@@ -11,6 +11,11 @@ import javax.persistence.Entity;
 @DiscriminatorValue("movie")
 public class Movie extends Article{
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     @Column(name="realisator", length=1000, nullable=true)
     private String realisator;
     

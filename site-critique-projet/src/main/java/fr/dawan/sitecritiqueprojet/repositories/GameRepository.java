@@ -10,6 +10,7 @@ import fr.dawan.sitecritiqueprojet.beans.Game;
 
 public interface GameRepository extends JpaRepository<Game, Long> {
     
+    
     //simple search
     @Query("SELECT g from Game g where g.title LIKE %:search%")
     List<Game> searchByAll(String search);
