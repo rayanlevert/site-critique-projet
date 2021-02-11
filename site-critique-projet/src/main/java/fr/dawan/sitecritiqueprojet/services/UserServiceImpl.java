@@ -9,13 +9,11 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +32,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private MessageSource messages;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -80,8 +78,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public User registerNewUserAccount(User u) throws EmailExistsException {
-        PasswordEncoder pe = new BCryptPasswordEncoder();
-
         if (emailExist(u)) {
             throw new EmailExistsException("There is an account with that email adress: " + u.getEmail());
         }
@@ -89,7 +85,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
         user.setFirstname(u.getFirstname());
         user.setLastname(u.getLastname());
-        user.setPassword(pe.encode(u.getPassword()));
+        user.setPassword(passwordEncoder.encode(u.getPassword()));
         user.setEmail(u.getEmail());
         user.setUsername(u.getUsername());
 

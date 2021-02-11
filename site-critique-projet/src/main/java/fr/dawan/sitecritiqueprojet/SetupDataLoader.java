@@ -9,25 +9,18 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import fr.dawan.sitecritiqueprojet.beans.Privilege;
 import fr.dawan.sitecritiqueprojet.beans.Role;
-import fr.dawan.sitecritiqueprojet.beans.User;
 import fr.dawan.sitecritiqueprojet.repositories.PrivilegeRepository;
 import fr.dawan.sitecritiqueprojet.repositories.RoleRepository;
-import fr.dawan.sitecritiqueprojet.repositories.UserRepository;
 
 @Component
 public class SetupDataLoader implements
   ApplicationListener<ContextRefreshedEvent> {
 
     boolean alreadySetup = false;
-
-    @Autowired
-    private UserRepository userRepository;
  
     @Autowired
     private RoleRepository roleRepository;
@@ -38,7 +31,6 @@ public class SetupDataLoader implements
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        PasswordEncoder pe = new BCryptPasswordEncoder();
         
         if (alreadySetup)
             return;
