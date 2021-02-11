@@ -2,12 +2,15 @@ package fr.dawan.sitecritiqueprojet.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.dawan.sitecritiqueprojet.beans.Game;
+
 import fr.dawan.sitecritiqueprojet.repositories.GameRepository;
 
 @Service
@@ -134,5 +137,17 @@ public class GameServiceImpl implements GameService {
             e.printStackTrace();
         }
         return game;
+    }
+    
+    @Override
+    public List<Game> findAll(int page, int i) {
+        List<Game> games = null;
+        try {
+            games = gameRepository.findAll(PageRequest.of(page, i)).get().collect(Collectors.toList());
+            
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return games;
     }
 }

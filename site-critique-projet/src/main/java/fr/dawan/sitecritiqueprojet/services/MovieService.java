@@ -1,10 +1,12 @@
 package fr.dawan.sitecritiqueprojet.services;
 
 import java.util.List;
-
 import fr.dawan.sitecritiqueprojet.beans.Movie;
 
 public interface MovieService {
+    
+    //pagination
+    public List<Movie> findAll(int page, int i);
 
     //basic find JPA
     public List<Movie> findAll();

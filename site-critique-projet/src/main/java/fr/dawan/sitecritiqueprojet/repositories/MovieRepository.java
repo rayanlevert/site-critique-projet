@@ -1,19 +1,21 @@
 package fr.dawan.sitecritiqueprojet.repositories;
 
 import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
 import fr.dawan.sitecritiqueprojet.beans.Movie;
 
 public interface MovieRepository extends JpaRepository<Movie, Long> {
-
-    @Query("SELECT m from Movie m where m.title LIKE %:search% AND m.genre = :filterValue")
-    List<Movie> searchByGenre(String search, String filterValue);
     
-    
+    //simple search
     @Query("SELECT m from Movie m where m.title LIKE %:search%")
     List<Movie> searchByAll(String search);
+    
+    //search with filters
+    
+    @Query("SELECT m from Movie m where m.title LIKE %:search% AND m.genre = :filterValue")
+    List<Movie> searchByGenre(String search, String filterValue);
 
     @Query("SELECT m from Movie m where m.title LIKE %:search% AND m.realisator = :filterValue")
     List<Movie> searchByReal(String search, String filterValue);
@@ -26,6 +28,9 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     @Query("SELECT m from Movie m where m.title LIKE %:search% AND m.nationality LIKE %:filterValue%")
     List<Movie> searchByNationality(String search, String filterValue);
+    
+    
+    //custom finds requests
 
     @Query("SELECT m from Movie m where m.genre = :filterValue")
     List<Movie> findByGenre(String filterValue);
@@ -41,4 +46,5 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     @Query("SELECT m from Movie m where m.nationality LIKE %:filterValue%")
     List<Movie> findByNationality(String filterValue);
+
 }
