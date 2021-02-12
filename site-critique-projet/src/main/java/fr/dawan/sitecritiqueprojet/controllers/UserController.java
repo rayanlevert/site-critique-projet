@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.dawan.sitecritiqueprojet.beans.User;
+import fr.dawan.sitecritiqueprojet.dto.UserDto;
 import fr.dawan.sitecritiqueprojet.exceptions.EmailExistsException;
 import fr.dawan.sitecritiqueprojet.services.UserService;
 
@@ -26,12 +27,12 @@ public class UserController {
     public UserService userService;
     
     @GetMapping(value = "/getAll", produces = "application/json")
-    public List<User> getAllUsers() {
+    public List<UserDto> getAllUsers() {
         return userService.getAllUsers();
     }
     
     @GetMapping(value = "/{id}")
-    public User getById(@PathVariable long id) {
+    public UserDto getById(@PathVariable long id) {
         return userService.getUserById(id);
     }
 

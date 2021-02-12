@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,10 +17,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 
 import fr.dawan.sitecritiqueprojet.beans.Privilege;
 import fr.dawan.sitecritiqueprojet.beans.Role;
 import fr.dawan.sitecritiqueprojet.beans.User;
+import fr.dawan.sitecritiqueprojet.dto.UserDto;
 import fr.dawan.sitecritiqueprojet.exceptions.EmailExistsException;
 import fr.dawan.sitecritiqueprojet.repositories.RoleRepository;
 import fr.dawan.sitecritiqueprojet.repositories.UserRepository;
@@ -103,17 +106,25 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public User getUserById(long id) {
+    public UserDto getUserById(long id) {
         Optional<User> user = userRepository.findById(id);
+        ModelMapper m = new ModelMapper();
         if (user.isPresent()) {
-            return user.get();
+            return m.map(user.get(), UserDto.class);
         } else
             return null;
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        List<UserDto> usersDto = new ArrayList<UserDto>();
+        ModelMapper m = new ModelMapper();
+
+        for (User u : users) {
+            usersDto.add(m.map(u, UserDto.class));
+        }
+        return usersDto;
     }
 
     @Override
