@@ -2,8 +2,6 @@ package fr.dawan.sitecritiqueprojet.beans;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -32,10 +30,11 @@ public class Review implements Serializable {
 	private int noteReview;
 	@Column(name = "publishDate")
 	private Date publishDate;
+	
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JsonIgnoreProperties("reviews")
-	@ManyToOne(cascade = CascadeType.ALL)
 	private User user;
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private Article article;
 
 	public Review() {
@@ -108,5 +107,4 @@ public class Review implements Serializable {
 		this.publishDate = publishDate;
 	}
 	
-
 }

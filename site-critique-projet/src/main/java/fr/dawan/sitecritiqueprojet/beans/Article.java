@@ -25,7 +25,7 @@ import javax.persistence.Table;
  * Liste des enfants :
  * Book, Movie, Game
  */
-public abstract class Article implements Serializable{
+public class Article implements Serializable{
 
     /**
      * 
@@ -92,8 +92,6 @@ public abstract class Article implements Serializable{
         this.creationArticleDate = creationArticleDate;
     }
 
-    
-    
     public int getMinAge() {
         return minAge;
     }
