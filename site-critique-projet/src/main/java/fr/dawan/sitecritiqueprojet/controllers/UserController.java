@@ -6,7 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.modelmapper.internal.Errors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.dawan.sitecritiqueprojet.beans.User;
 import fr.dawan.sitecritiqueprojet.dto.UserDto;
 import fr.dawan.sitecritiqueprojet.exceptions.EmailExistsException;
+import fr.dawan.sitecritiqueprojet.response.ApiResponse;
 import fr.dawan.sitecritiqueprojet.services.UserService;
 
 @RestController
@@ -38,16 +42,16 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @PostMapping("/register")
-    public String registerUserAccount(@RequestBody User u, HttpServletRequest request,
-            Errors errors) {
+    @PostMapping(value = "/register")
+    @ExceptionHandler(EmailExistsException.class)
+    public ResponseEntity<Object> registerUserAccount(@RequestBody User u) {
         User registered = null;
         try {
             registered = userService.registerNewUserAccount(u);
-        } catch (EmailExistsException uaeEx) {
-            return "User already exists";
+        } catch (EmailExistsException ex) {
+            return new RestExceptionHandlerController().handleEmailAlreadyExists(ex, u.getEmail());
         }
-        return "User " + registered + "has been created";
+        return new ResponseEntity<Object>(new ApiResponse(HttpStatus.OK, "L'utilisateur " + registered.getUsername() + "a été créé avec succès!"), HttpStatus.OK);
     }
     
     @PutMapping(value = "/update", produces = "text/plain")
