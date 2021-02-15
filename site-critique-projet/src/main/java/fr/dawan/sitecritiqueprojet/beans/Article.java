@@ -16,6 +16,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="article")
 @Inheritance( strategy = InheritanceType.JOINED)
@@ -39,6 +41,7 @@ public class Article implements Serializable{
     @Column(name="title", length=255, nullable=false)
     private String title;
     @OneToMany(targetEntity=Review.class, mappedBy="article")
+    @JsonIgnore
     protected List<Review> reviews;
     
     @Column(name="publishDate", nullable=false) //date de sortie mondiale du film,jeu,livre -> article
