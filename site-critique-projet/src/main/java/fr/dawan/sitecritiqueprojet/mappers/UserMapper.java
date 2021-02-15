@@ -19,6 +19,8 @@ public class UserMapper {
             mapper.map(src -> src.getLastname(), UserDto::setLastname);
             mapper.map(src -> src.getFirstname(), UserDto::setFirstname);
             mapper.map(src -> src.getEmail(), UserDto::setEmail);
+            mapper.map(src -> src.isEnabled(), UserDto::setEnabled);
+            mapper.map(src -> src.getRoles(), UserDto::setRoles);
         });
         return mapper.map(u, UserDto.class);
     }
@@ -30,6 +32,7 @@ public class UserMapper {
             mapper.map(src -> src.getLastname(), User::setLastname);
             mapper.map(src -> src.getFirstname(), User::setFirstname);
             mapper.map(src -> src.getEmail(), User::setEmail);
+            mapper.map(src -> src.getRoles(), User::setRoles);
         });
         return mapper.map(uDto, User.class);
     }
