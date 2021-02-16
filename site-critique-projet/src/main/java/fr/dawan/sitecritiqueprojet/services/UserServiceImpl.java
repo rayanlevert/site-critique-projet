@@ -17,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
 
 import fr.dawan.sitecritiqueprojet.beans.Privilege;
 import fr.dawan.sitecritiqueprojet.beans.Role;
@@ -39,18 +38,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Autowired
     private RoleRepository roleRepository;
-
+    
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDto loadByUsernameAndPassword(String username, String password) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        boolean check = passwordCheck(password, user.getPassword());
 
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
-            return new org.springframework.security.core.userdetails.User(" ", " ", true, true, true, true,
-                    getAuthorities(Arrays.asList(roleRepository.findByName("ROLE_USER"))));
+        if (user != null && check) {
+            return getUserById(user.getId());
+        } else {
+            throw new UsernameNotFoundException(
+                    "Un utilisateur avec le pseudo '" + username + "' n'existe pas ou le mot de passe est incorrect");
         }
-
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
-                user.isEnabled(), true, true, true, getAuthorities(user.getRoles()));
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
@@ -99,9 +98,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public User updateUserAccount(User u) throws EmailExistsException {
         System.out.println(u);
+        boolean check = passwordCheck("foo", u.getPassword());
+        System.out.println(check);
+
         if (emailExist(u)) {
             throw new EmailExistsException("There is an account with that email adress: " + u.getEmail());
         }
+        u.setPassword(passwordEncoder.encode(u.getPassword()));
         return userRepository.saveAndFlush(u);
     }
 
@@ -136,5 +139,15 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             }
         }
         return false;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
+    }
+
+    @Override
+    public boolean passwordCheck(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 }

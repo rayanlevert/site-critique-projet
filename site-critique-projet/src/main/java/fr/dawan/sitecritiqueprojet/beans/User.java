@@ -65,6 +65,11 @@ public class User {
         this.password = password;
     }
 
+    public User(long id, List<Role> roles) {
+        this.id = id;
+        this.roles = roles;
+    }
+
     public long getId() {
         return id;
     }

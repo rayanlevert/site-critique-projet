@@ -10,6 +10,7 @@ public class UserDto {
     private String username;
     private String lastname;
     private String firstname;
+    private String password;
     private String email;
     private boolean enabled;
     private List<Role> roles;
@@ -44,6 +45,14 @@ public class UserDto {
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
