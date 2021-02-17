@@ -3,6 +3,7 @@ package fr.dawan.sitecritiqueprojet.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,15 +43,16 @@ public class ReviewController {
 	
 	//@PostMapping(consumes = "application/json", produces = "application/json")
 	//@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/create")
-	@RequestMapping(value = "/create", method = RequestMethod.POST,produces = "application/json")
+	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
 	public Review createReview(@RequestBody Review r) {
 		System.out.println("create -------------------------------");
 		return reviewService.saveOrUpdate(r);
 	}
 	
-	@PutMapping(consumes = "application/json", produces = "application/json")
-	public Review updateReview(@RequestBody Review r) {
-		return reviewService.saveOrUpdate(r);
+	//@PutMapping(consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/update/{id}",consumes = "application/json", method = RequestMethod.PUT, produces = "application/json")
+	public ResponseEntity<Review> updateReview(@RequestBody Review r,@PathVariable long id) {
+		return reviewService.update(r, id);
 	}
 	
 	@DeleteMapping(value = "/review/{id}", produces = "text/plain")

@@ -1,5 +1,6 @@
 package fr.dawan.sitecritiqueprojet.mappers;
 import org.modelmapper.ModelMapper;
+
 import fr.dawan.sitecritiqueprojet.beans.Review;
 import fr.dawan.sitecritiqueprojet.dto.ReviewDto;
 
@@ -18,6 +19,7 @@ public class ReviewMapper {
 			mapper.map(src->src.getNoteReview(), ReviewDto::setNoteReview);
 			mapper.map(src->src.getUser().getId(), ReviewDto::setUserId);
 			mapper.map(src->src.getArticle().getId(), ReviewDto::setArticleId);
+			mapper.map(src->src.getUser().getUsername(), ReviewDto::setUserUsername);
 		});
 		return mapper.map(r, ReviewDto.class);
 	}
@@ -30,6 +32,7 @@ public class ReviewMapper {
 			mapper.map(src->src.getNoteReview(), Review::setNoteReview);
 			mapper.map(src->src.getUserId(), Review::setUser);
 			mapper.map(src->src.getArticleId(), Review::setArticle);
+			mapper.map(src->src.getUserUsername(), Review::setUser);
 		});
 		return mapper.map(rDto, Review.class);
 	}

@@ -8,6 +8,9 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import fr.dawan.sitecritiqueprojet.beans.Review;
@@ -75,6 +78,20 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public void deleteById(long id) {
 		reviewRepository.deleteById(id);
+	}
+
+	@Override
+	public ResponseEntity<Review> update(Review r, long id) {
+	    Optional<Review> reviewOpt = reviewRepository.findById(id);
+	    if (reviewOpt.isPresent()) {
+	    	Review _review = reviewOpt.get();
+	      _review.setTitleReview(r.getTitleReview());
+	      _review.setContentReview(r.getContentReview());
+	      _review.setNoteReview(r.getNoteReview());
+	      return new ResponseEntity<>(reviewRepository.save(_review), HttpStatus.OK);
+	    } else {
+	      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	    }
 	}
 
 }
