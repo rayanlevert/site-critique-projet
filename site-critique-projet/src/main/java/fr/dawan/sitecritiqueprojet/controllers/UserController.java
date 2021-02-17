@@ -55,10 +55,11 @@ public class UserController {
         User registered = null;
         try {
             registered = userService.registerNewUserAccount(u);
+            System.out.println(registered);
         } catch (EmailExistsException ex) {
             return new RestExceptionHandlerController().handleEmailAlreadyExists(ex, u.getEmail());
         }
-        return new ResponseEntity<Object>(new ApiResponse(HttpStatus.OK, "L'utilisateur " + registered.getUsername() + "a été créé avec succès!"), HttpStatus.OK);
+        return new ResponseEntity<Object>(new ApiResponse(HttpStatus.OK, "L'utilisateur " + registered.getUsername() + " a été créé avec succès!"), HttpStatus.OK);
     }
     
     @PutMapping(value = "/update", produces = "text/plain")

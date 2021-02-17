@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public UserDto loadByUsernameAndPassword(String username, String password) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         boolean check = passwordCheck(password, user.getPassword());
-
+        System.out.println(user);
         if (user != null && check) {
             return getUserById(user.getId());
         } else {
@@ -84,14 +84,20 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             throw new EmailExistsException("There is an account with that email adress: " + u.getEmail());
         }
         User user = new User();
-
+        
         user.setFirstname(u.getFirstname());
         user.setLastname(u.getLastname());
         user.setPassword(passwordEncoder.encode(u.getPassword()));
         user.setEmail(u.getEmail());
         user.setUsername(u.getUsername());
 
-        user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
+        List<Role> roles = new ArrayList<Role>();
+        for(Role role : u.getRoles()) {
+            roles.add(roleRepository.findByName(role.getName()));
+        }
+        roles.add(roleRepository.findByName("ROLE_USER"));
+
+        user.setRoles(roles);
         return userRepository.save(user);
     }
 
