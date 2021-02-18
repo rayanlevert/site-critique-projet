@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,7 @@ import fr.dawan.sitecritiqueprojet.beans.Password;
 import fr.dawan.sitecritiqueprojet.beans.User;
 import fr.dawan.sitecritiqueprojet.dto.UserDto;
 import fr.dawan.sitecritiqueprojet.exceptions.EmailExistsException;
+import fr.dawan.sitecritiqueprojet.exceptions.UsernameExistsException;
 import fr.dawan.sitecritiqueprojet.response.ApiResponse;
 import fr.dawan.sitecritiqueprojet.services.UserService;
 
@@ -55,11 +57,12 @@ public class UserController {
         User registered = null;
         try {
             registered = userService.registerNewUserAccount(u);
-            System.out.println(registered);
         } catch (EmailExistsException ex) {
             return new RestExceptionHandlerController().handleEmailAlreadyExists(ex, u.getEmail());
+        } catch (UsernameExistsException ex) {
+            return new RestExceptionHandlerController().handleUsernameAlreadyExists(ex, u.getUsername());
         }
-        return new ResponseEntity<Object>(new ApiResponse(HttpStatus.OK, "L'utilisateur " + registered.getUsername() + " a été créé avec succès!"), HttpStatus.OK);
+        return new ResponseEntity<Object>(new ApiResponse(HttpStatus.OK, "L'utilisateur " + registered.getUsername() + " a été créé avec succès!", registered), HttpStatus.OK);
     }
     
     @PutMapping(value = "/update", produces = "text/plain")
@@ -71,6 +74,12 @@ public class UserController {
             return "User with the email " + u.getEmail() + " already exists";
         }
         return "User" + updated + "has been modified";
+    }
+
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity<Object> deleteUserAccount(@PathVariable long id) {
+        UserDto deleted = userService.deleteUserById(id);
+        return new ResponseEntity<Object>(new ApiResponse(HttpStatus.OK, "L'utilisateur " + deleted.getUsername() + " a été supprimé avec succès!"), HttpStatus.OK);
     }
 
     @PostMapping(value = "/checkPassword")

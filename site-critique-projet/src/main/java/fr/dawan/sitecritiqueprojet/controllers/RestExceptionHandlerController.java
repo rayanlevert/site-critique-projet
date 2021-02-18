@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import fr.dawan.sitecritiqueprojet.response.ApiResponse;
 import fr.dawan.sitecritiqueprojet.exceptions.EmailExistsException;
+import fr.dawan.sitecritiqueprojet.exceptions.UsernameExistsException;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
@@ -18,6 +19,13 @@ public class RestExceptionHandlerController extends ResponseEntityExceptionHandl
     protected ResponseEntity<Object> handleEmailAlreadyExists(EmailExistsException ex, String email) {
         ApiResponse apiResponse = new ApiResponse(HttpStatus.CONFLICT);
         apiResponse.setMessage(ex.getMessage() + ": " + email);
+
+        return buildResponseEntity(apiResponse);
+    }
+
+    protected ResponseEntity<Object> handleUsernameAlreadyExists(UsernameExistsException ex, String username) {
+        ApiResponse apiResponse = new ApiResponse(HttpStatus.CONFLICT);
+        apiResponse.setMessage(ex.getMessage() + ": " + username);
 
         return buildResponseEntity(apiResponse);
     }

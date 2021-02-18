@@ -23,6 +23,7 @@ import fr.dawan.sitecritiqueprojet.beans.Role;
 import fr.dawan.sitecritiqueprojet.beans.User;
 import fr.dawan.sitecritiqueprojet.dto.UserDto;
 import fr.dawan.sitecritiqueprojet.exceptions.EmailExistsException;
+import fr.dawan.sitecritiqueprojet.exceptions.UsernameExistsException;
 import fr.dawan.sitecritiqueprojet.repositories.RoleRepository;
 import fr.dawan.sitecritiqueprojet.repositories.UserRepository;
 
@@ -79,10 +80,15 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public User registerNewUserAccount(User u) throws EmailExistsException {
+    public User registerNewUserAccount(User u) throws EmailExistsException, UsernameExistsException {
         if (emailExist(u)) {
             throw new EmailExistsException("There is an account with that email adress: " + u.getEmail());
         }
+
+        if(usernameExist(u)) {
+            throw new UsernameExistsException("Il y a déjà un utilisateur avec ce pseudonyme: " + u.getUsername());
+        }
+
         User user = new User();
         
         user.setFirstname(u.getFirstname());
@@ -92,12 +98,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         user.setUsername(u.getUsername());
 
         List<Role> roles = new ArrayList<Role>();
-        for(Role role : u.getRoles()) {
-            roles.add(roleRepository.findByName(role.getName()));
+        if (u.getRoles() != null) {
+            for(Role role : u.getRoles()) {
+                roles.add(roleRepository.findByName(role.getName()));
+            }
         }
         roles.add(roleRepository.findByName("ROLE_USER"));
-
         user.setRoles(roles);
+
         return userRepository.save(user);
     }
 
@@ -147,6 +155,16 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return false;
     }
 
+    public boolean usernameExist(User user) {
+        List<User> users = userRepository.findAll();
+        for (User u : users) {
+            if (u.getUsername().equals(user.getUsername())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return null;
@@ -155,5 +173,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public boolean passwordCheck(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
+
+    @Override
+    public UserDto deleteUserById(long id) {
+        UserDto u = getUserById(id);
+        userRepository.deleteById(id);
+        return u;
     }
 }

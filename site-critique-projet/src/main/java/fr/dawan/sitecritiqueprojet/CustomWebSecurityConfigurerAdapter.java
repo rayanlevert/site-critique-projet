@@ -16,8 +16,6 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                    .antMatchers("/**").permitAll()
-                    .anyRequest().authenticated()
             .and().formLogin()
                     .defaultSuccessUrl("/home", true)
                     .permitAll()
@@ -27,20 +25,11 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
                 .csrf().disable()
                 .logout()
                     .logoutSuccessUrl("/");
-
-
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-            .withUser("levertr")
-            .password("testPassword")
-            .roles("DMIN")
-            .and()
-            .withUser("foo")
-            .password("foo")
-            .roles("ADMIN");
+
     }
     
     @Bean
