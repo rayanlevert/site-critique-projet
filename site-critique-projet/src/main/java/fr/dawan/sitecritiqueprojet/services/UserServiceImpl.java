@@ -43,10 +43,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public UserDto loadByUsernameAndPassword(String username, String password) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        boolean check = passwordCheck(password, user.getPassword());
+        System.out.println("username" + username);
+        System.out.println("user" + user);
+        System.out.println("password" + password);
+        
         System.out.println(user);
-        if (user != null && check) {
-            return getUserById(user.getId());
+        if (user != null) {
+            boolean check = passwordCheck(password, user.getPassword());
+            if(check) {
+                return getUserById(user.getId());
+            }
+            throw new UsernameNotFoundException(
+                    "Un utilisateur avec le pseudo '" + username + "' n'existe pas ou le mot de passe est incorrect");
         } else {
             throw new UsernameNotFoundException(
                     "Un utilisateur avec le pseudo '" + username + "' n'existe pas ou le mot de passe est incorrect");
@@ -110,15 +118,21 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public User updateUserAccount(User u) throws EmailExistsException {
-        System.out.println(u);
-        boolean check = passwordCheck("foo", u.getPassword());
-        System.out.println(check);
+    public User updateUserAccount(User u) throws EmailExistsException, UsernameExistsException {
+        boolean checkPassword = hasPasswordBeenModified(u.getId(), u.getPassword());
 
         if (emailExist(u)) {
             throw new EmailExistsException("There is an account with that email adress: " + u.getEmail());
         }
-        u.setPassword(passwordEncoder.encode(u.getPassword()));
+
+        if (usernameExist(u)) {
+            throw new UsernameExistsException("Il y a déjà un utilisateur avec ce pseudonyme: " + u.getUsername());
+        }
+        System.out.println("avant pas " + u.getPassword());
+        if (checkPassword) {
+            u.setPassword(passwordEncoder.encode(u.getPassword()));
+        }
+        System.out.println("apres pas " + u.getPassword());
         return userRepository.saveAndFlush(u);
     }
 
@@ -158,11 +172,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public boolean usernameExist(User user) {
         List<User> users = userRepository.findAll();
         for (User u : users) {
-            if (u.getUsername().equals(user.getUsername())) {
+            if (u.getUsername().equals(user.getUsername()) && u.getId() != user.getId()) {
                 return true;
             }
         }
         return false;
+    }
+
+    public boolean hasPasswordBeenModified(long id, String password) {
+        UserDto u = getUserById(id);
+        if (password.equals(u.getPassword())) {
+            return false;
+        } return true;
     }
 
     @Override

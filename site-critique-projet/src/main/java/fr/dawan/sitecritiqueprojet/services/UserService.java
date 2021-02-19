@@ -14,7 +14,7 @@ public interface UserService {
     List<UserDto> getAllUsers();
     UserDto getUserById(long id);
     User registerNewUserAccount(User u) throws EmailExistsException, UsernameExistsException;
-    User updateUserAccount(User u) throws EmailExistsException;
+    User updateUserAccount(User u) throws EmailExistsException, UsernameExistsException;
     boolean passwordCheck(String rawPassword, String encodedPassword);
     boolean emailExist(User user);
     UserDto loadByUsernameAndPassword(String username, String password) throws UsernameNotFoundException;
