@@ -1,5 +1,6 @@
 package fr.dawan.sitecritiqueprojet.beans;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("movie")
-public class Movie extends Article{
+public class Movie extends Article implements Serializable{
 
     /**
      * 

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,12 +34,13 @@ import fr.dawan.sitecritiqueprojet.beans.Movie;
 import fr.dawan.sitecritiqueprojet.services.MovieService;
 @RestController
 @RequestMapping("/api/movies")
+@CrossOrigin(origins="http://localhost:3000")
 public class MovieController {
 
     @Autowired
     private MovieService iMovieService;
     
-    @GetMapping("/")
+    @GetMapping(value="/", produces = "application/json")
     public List<Movie> getMovies()
     {
         List<Movie> movies = iMovieService.findAll();
@@ -87,6 +89,7 @@ public class MovieController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     public Movie createMovie( @RequestBody Movie movie )
     {
+        System.out.println(movie);
         Movie createdMovie = iMovieService.saveOrUpdate(movie);
         return createdMovie;
     }

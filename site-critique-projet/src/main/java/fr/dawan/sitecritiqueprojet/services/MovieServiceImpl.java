@@ -51,6 +51,7 @@ public class MovieServiceImpl implements MovieService {
     }
     @Override
     public Movie saveOrUpdate(Movie movie) {
+        System.out.println(movie);
         movieRepository.saveAndFlush(movie);
         return movie;
     }
