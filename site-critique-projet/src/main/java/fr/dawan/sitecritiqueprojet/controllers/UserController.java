@@ -8,7 +8,6 @@ import org.modelmapper.internal.Errors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -52,7 +51,6 @@ public class UserController {
     }
 
     @PostMapping(value = "/register")
-    @ExceptionHandler(EmailExistsException.class)
     public ResponseEntity<Object> registerUserAccount(@RequestBody User u) {
         User registered = null;
         try {
@@ -65,15 +63,17 @@ public class UserController {
         return new ResponseEntity<Object>(new ApiResponse(HttpStatus.OK, "L'utilisateur " + registered.getUsername() + " a été créé avec succès!", registered), HttpStatus.OK);
     }
     
-    @PutMapping(value = "/update", produces = "text/plain")
-    public String updateUserAccount(@RequestBody User u, HttpServletRequest request, Errors errors) {
+    @PutMapping(value = "/update")
+    public ResponseEntity<Object> updateUserAccount(@RequestBody User u, HttpServletRequest request, Errors errors) {
         User updated;
         try {
             updated = userService.updateUserAccount(u);
-        } catch (EmailExistsException uaeEx) {
-            return "User with the email " + u.getEmail() + " already exists";
+        } catch (UsernameExistsException ex) {
+            return new RestExceptionHandlerController().handleUsernameAlreadyExists(ex, u.getUsername());
+        } catch (EmailExistsException ex) {
+            return new RestExceptionHandlerController().handleEmailAlreadyExists(ex, u.getEmail());
         }
-        return "User" + updated + "has been modified";
+        return new ResponseEntity<Object>(new ApiResponse(HttpStatus.OK, "Votre profil " + updated.getUsername() + " a été modifié avec succès!", updated), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/delete/{id}")
