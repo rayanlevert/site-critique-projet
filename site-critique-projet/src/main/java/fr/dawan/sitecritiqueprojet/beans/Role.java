@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Role {
 
@@ -23,9 +25,11 @@ public class Role {
     private String name;
     
     @ManyToMany
+    @JsonIgnore
     private List<User> users;
     
     @ManyToMany
+    @JsonIgnore
     @JoinTable(
         name = "roles_privileges", 
         joinColumns = @JoinColumn(
@@ -82,5 +86,10 @@ public class Role {
 
     public Role(String name) {
         this.name = name;
-    }    
+    }
+
+    @Override
+    public String toString() {
+        return "Role: id = " + this.id + " name: " + this.name;
+    }
 }

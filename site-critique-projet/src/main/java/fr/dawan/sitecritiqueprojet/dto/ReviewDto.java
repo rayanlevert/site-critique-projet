@@ -13,6 +13,8 @@ public class ReviewDto implements Serializable{
 	private Date publishDate;
 	private long userId;
 	private long articleId;
+	private String userUsername;
+	private String articleTitle;
 
 	public long getIdReview() {
 		return idReview;
@@ -68,6 +70,22 @@ public class ReviewDto implements Serializable{
 
 	public void setArticleId(long articleId) {
 		this.articleId = articleId;
+	}
+
+	public String getUserUsername() {
+		return userUsername;
+	}
+
+	public void setUserUsername(String userUsername) {
+		this.userUsername = userUsername;
+	}
+
+	public String getArticleTitle() {
+		return articleTitle;
+	}
+
+	public void setArticleTitle(String articleTitle) {
+		this.articleTitle = articleTitle;
 	}
 
 }

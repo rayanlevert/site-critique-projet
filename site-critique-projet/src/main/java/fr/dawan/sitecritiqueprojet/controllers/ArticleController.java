@@ -1,6 +1,7 @@
 package fr.dawan.sitecritiqueprojet.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +14,7 @@ import fr.dawan.sitecritiqueprojet.services.BookService;
 import fr.dawan.sitecritiqueprojet.services.GameService;
 import fr.dawan.sitecritiqueprojet.services.MovieService;
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/articles")
 public class ArticleController {

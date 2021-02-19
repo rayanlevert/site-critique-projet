@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SiteCritiqueProjetApplication<site-critique-projet>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "fr.dawan.sitecritiqueprojet.SiteCritiqueProjetApplication",
+            "projectName": "site-critique-projet",
+            "args": ""
+        }
+    ]
+}

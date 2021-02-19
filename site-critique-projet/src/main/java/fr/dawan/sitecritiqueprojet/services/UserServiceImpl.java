@@ -17,13 +17,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
 
 import fr.dawan.sitecritiqueprojet.beans.Privilege;
 import fr.dawan.sitecritiqueprojet.beans.Role;
 import fr.dawan.sitecritiqueprojet.beans.User;
 import fr.dawan.sitecritiqueprojet.dto.UserDto;
 import fr.dawan.sitecritiqueprojet.exceptions.EmailExistsException;
+import fr.dawan.sitecritiqueprojet.exceptions.UsernameExistsException;
 import fr.dawan.sitecritiqueprojet.repositories.RoleRepository;
 import fr.dawan.sitecritiqueprojet.repositories.UserRepository;
 
@@ -39,18 +39,26 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Autowired
     private RoleRepository roleRepository;
-
+    
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
-            return new org.springframework.security.core.userdetails.User(" ", " ", true, true, true, true,
-                    getAuthorities(Arrays.asList(roleRepository.findByName("ROLE_USER"))));
+    public UserDto loadByUsernameAndPassword(String username, String password) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        System.out.println("username" + username);
+        System.out.println("user" + user);
+        System.out.println("password" + password);
+        
+        System.out.println(user);
+        if (user != null) {
+            boolean check = passwordCheck(password, user.getPassword());
+            if(check) {
+                return getUserById(user.getId());
+            }
+            throw new UsernameNotFoundException(
+                    "Un utilisateur avec le pseudo '" + username + "' n'existe pas ou le mot de passe est incorrect");
+        } else {
+            throw new UsernameNotFoundException(
+                    "Un utilisateur avec le pseudo '" + username + "' n'existe pas ou le mot de passe est incorrect");
         }
-
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
-                user.isEnabled(), true, true, true, getAuthorities(user.getRoles()));
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
@@ -80,28 +88,51 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public User registerNewUserAccount(User u) throws EmailExistsException {
+    public User registerNewUserAccount(User u) throws EmailExistsException, UsernameExistsException {
         if (emailExist(u)) {
             throw new EmailExistsException("There is an account with that email adress: " + u.getEmail());
         }
-        User user = new User();
 
+        if(usernameExist(u)) {
+            throw new UsernameExistsException("Il y a déjà un utilisateur avec ce pseudonyme: " + u.getUsername());
+        }
+
+        User user = new User();
+        
         user.setFirstname(u.getFirstname());
         user.setLastname(u.getLastname());
         user.setPassword(passwordEncoder.encode(u.getPassword()));
         user.setEmail(u.getEmail());
         user.setUsername(u.getUsername());
 
-        user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
+        List<Role> roles = new ArrayList<Role>();
+        if (u.getRoles() != null) {
+            for(Role role : u.getRoles()) {
+                roles.add(roleRepository.findByName(role.getName()));
+            }
+        }
+        roles.add(roleRepository.findByName("ROLE_USER"));
+        user.setRoles(roles);
+
         return userRepository.save(user);
     }
 
     @Override
-    public User updateUserAccount(User u) throws EmailExistsException {
-        System.out.println(u);
+    public User updateUserAccount(User u) throws EmailExistsException, UsernameExistsException {
+        boolean checkPassword = hasPasswordBeenModified(u.getId(), u.getPassword());
+
         if (emailExist(u)) {
             throw new EmailExistsException("There is an account with that email adress: " + u.getEmail());
         }
+
+        if (usernameExist(u)) {
+            throw new UsernameExistsException("Il y a déjà un utilisateur avec ce pseudonyme: " + u.getUsername());
+        }
+        System.out.println("avant pas " + u.getPassword());
+        if (checkPassword) {
+            u.setPassword(passwordEncoder.encode(u.getPassword()));
+        }
+        System.out.println("apres pas " + u.getPassword());
         return userRepository.saveAndFlush(u);
     }
 
@@ -136,5 +167,39 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             }
         }
         return false;
+    }
+
+    public boolean usernameExist(User user) {
+        List<User> users = userRepository.findAll();
+        for (User u : users) {
+            if (u.getUsername().equals(user.getUsername()) && u.getId() != user.getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasPasswordBeenModified(long id, String password) {
+        UserDto u = getUserById(id);
+        if (password.equals(u.getPassword())) {
+            return false;
+        } return true;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
+    }
+
+    @Override
+    public boolean passwordCheck(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
+
+    @Override
+    public UserDto deleteUserById(long id) {
+        UserDto u = getUserById(id);
+        userRepository.deleteById(id);
+        return u;
     }
 }

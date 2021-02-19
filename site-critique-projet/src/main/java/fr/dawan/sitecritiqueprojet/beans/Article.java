@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -14,11 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -42,15 +39,15 @@ public class Article implements Serializable{
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     protected long id;
     
-    @Column(name="title", length=255)
+    @Column(name="title", length=255, nullable=false)
     private String title;
-    @OneToMany(targetEntity=Review.class, mappedBy="article")
+    @OneToMany(targetEntity=Review.class, mappedBy="article",cascade = CascadeType.ALL)
     @JsonIgnore
     protected List<Review> reviews;
     
-    @Column(name="publishDate") //date de sortie mondiale du film,jeu,livre -> article
+    @Column(name="publishDate", nullable=false) //date de sortie mondiale du film,jeu,livre -> article
     protected Date publishDate;
-    @Column(name="creationArticleDate", nullable=true) //date de publication sur le site
+    @Column(name="creationArticleDate") //date de publication sur le site
     protected Date creationArticleDate;
     
     @Column(name="minAge")
@@ -59,24 +56,8 @@ public class Article implements Serializable{
     @Column(name="valid")
     protected boolean valid;
     
-    @Column(name="webContent")
-    @Lob
-    protected String webContent;
-    
     //Constructors
     
-    public String getWebContent() {
-        return webContent;
-    }
-
-    public void setWebContent(String webContent) {
-        this.webContent = webContent;
-    }
-
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
-
     public boolean isValid() {
         return valid;
     }
@@ -85,18 +66,6 @@ public class Article implements Serializable{
         this.valid = valid;
     }
 
-    public Article(long id, String title, List<Review> reviews, Date publishDate, Date creationArticleDate, int minAge, boolean valid, String webContent) {
-        super();
-        this.id = id;
-        this.title = title;
-        this.reviews = reviews;
-        this.publishDate = publishDate;
-        this.creationArticleDate = creationArticleDate;
-        this.minAge = minAge;
-        this.valid = valid;
-        this.webContent = webContent;
-    }
-    
     public Article(long id, String title, List<Review> reviews, Date publishDate, Date creationArticleDate, int minAge, boolean valid) {
         super();
         this.id = id;

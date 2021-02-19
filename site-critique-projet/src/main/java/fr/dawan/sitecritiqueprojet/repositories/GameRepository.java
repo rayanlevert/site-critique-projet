@@ -25,7 +25,8 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     List<Game> searchByPublisher(String search, String filterValue);
     @Query("SELECT g from Game g where g.title LIKE %:search% AND g.platform = :filterValue")
     List<Game> searchByPlatform(String search, String filterValue);
-    
+    @Query("SELECT g From Game g where g.title LIKE %:search% AND g.valid = :filterValue")
+    List<Game> searchByValid(String search, String filterValue);
     
     //custom find requests
     

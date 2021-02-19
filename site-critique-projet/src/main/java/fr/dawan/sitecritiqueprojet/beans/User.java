@@ -5,9 +5,12 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -38,7 +41,13 @@ public class User {
     @Column(name = "enabled")
     private boolean enabled;
     
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany()
+    @JoinTable(
+        name = "role_users", 
+        joinColumns = @JoinColumn(
+          name = "user_id", referencedColumnName = "id"), 
+        inverseJoinColumns = @JoinColumn(
+          name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Commentary> comments;
@@ -63,6 +72,11 @@ public class User {
         this.lastname = lastname;
         this.firstname = firstname;
         this.password = password;
+    }
+
+    public User(long id, List<Role> roles) {
+        this.id = id;
+        this.roles = roles;
     }
 
     public long getId() {

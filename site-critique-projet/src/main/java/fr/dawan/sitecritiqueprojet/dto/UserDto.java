@@ -1,12 +1,19 @@
 package fr.dawan.sitecritiqueprojet.dto;
 
+import java.util.List;
+
+import fr.dawan.sitecritiqueprojet.beans.Role;
+
 public class UserDto {
 
     private long id;
     private String username;
     private String lastname;
     private String firstname;
+    private String password;
     private String email;
+    private boolean enabled;
+    private List<Role> roles;
     
     public long getId() {
         return id;
@@ -40,6 +47,14 @@ public class UserDto {
         this.firstname = firstname;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -48,5 +63,19 @@ public class UserDto {
         this.email = email;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
 }
