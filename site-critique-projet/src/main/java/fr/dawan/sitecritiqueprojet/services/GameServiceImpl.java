@@ -94,6 +94,8 @@ public class GameServiceImpl implements GameService {
                 break;
             case "platform": game = gameRepository.searchByPlatform(search, filterValue);
                 break;
+            case "valid": game = gameRepository.searchByValid(search, filterValue);
+            	break;
             default:
                 game = gameRepository.searchByAll(search);
                 break;

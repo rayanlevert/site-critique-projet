@@ -20,6 +20,7 @@ public class ReviewMapper {
 			mapper.map(src->src.getUser().getId(), ReviewDto::setUserId);
 			mapper.map(src->src.getArticle().getId(), ReviewDto::setArticleId);
 			mapper.map(src->src.getUser().getUsername(), ReviewDto::setUserUsername);
+			mapper.map(src->src.getArticle().getTitle(), ReviewDto::setArticleTitle);
 		});
 		return mapper.map(r, ReviewDto.class);
 	}

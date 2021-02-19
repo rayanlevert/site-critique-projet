@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -40,7 +41,7 @@ public class Article implements Serializable{
     
     @Column(name="title", length=255, nullable=false)
     private String title;
-    @OneToMany(targetEntity=Review.class, mappedBy="article")
+    @OneToMany(targetEntity=Review.class, mappedBy="article",cascade = CascadeType.ALL)
     @JsonIgnore
     protected List<Review> reviews;
     
