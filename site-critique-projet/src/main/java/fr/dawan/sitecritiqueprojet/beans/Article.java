@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -56,8 +57,22 @@ public class Article implements Serializable{
     @Column(name="valid")
     protected boolean valid;
     
-    //Constructors
+    @Column(name="webContent")
+    @Lob
+    protected String webContent;
     
+    public String getWebContent() {
+        return webContent;
+    }
+
+    public void setWebContent(String webContent) {
+        this.webContent = webContent;
+    }
+
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
+
     public boolean isValid() {
         return valid;
     }
