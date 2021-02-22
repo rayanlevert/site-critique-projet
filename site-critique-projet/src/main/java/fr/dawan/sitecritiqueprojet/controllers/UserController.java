@@ -3,6 +3,7 @@ package fr.dawan.sitecritiqueprojet.controllers;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 
 import org.modelmapper.internal.Errors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.dawan.sitecritiqueprojet.beans.Password;
@@ -50,6 +52,17 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+    @GetMapping(value = "/getByUsername", produces = "application/json")
+    public ResponseEntity<Object> getByUsername(@RequestParam String username) {
+        UserDto searched = null;
+        try {
+            searched = userService.getUserByUsername(username);
+        } catch (UsernameExistsException ex) {
+            return new RestExceptionHandlerController().handleUsernameAlreadyExists(ex, username);
+        }
+        return new ResponseEntity<Object>(new ApiResponse(HttpStatus.OK, "L'utilisateur " + searched.getUsername() + "existe bien!", searched), HttpStatus.OK); 
+    }
+
     @PostMapping(value = "/register")
     public ResponseEntity<Object> registerUserAccount(@RequestBody User u) {
         User registered = null;
@@ -59,6 +72,8 @@ public class UserController {
             return new RestExceptionHandlerController().handleEmailAlreadyExists(ex, u.getEmail());
         } catch (UsernameExistsException ex) {
             return new RestExceptionHandlerController().handleUsernameAlreadyExists(ex, u.getUsername());
+        } catch (ConstraintViolationException ex) {
+            return new RestExceptionHandlerController().handleViolationException(ex);
         }
         return new ResponseEntity<Object>(new ApiResponse(HttpStatus.OK, "L'utilisateur " + registered.getUsername() + " a été créé avec succès!", registered), HttpStatus.OK);
     }
@@ -72,6 +87,8 @@ public class UserController {
             return new RestExceptionHandlerController().handleUsernameAlreadyExists(ex, u.getUsername());
         } catch (EmailExistsException ex) {
             return new RestExceptionHandlerController().handleEmailAlreadyExists(ex, u.getEmail());
+        } catch (ConstraintViolationException ex) {
+            return new RestExceptionHandlerController().handleViolationException(ex);
         }
         return new ResponseEntity<Object>(new ApiResponse(HttpStatus.OK, "Votre profil " + updated.getUsername() + " a été modifié avec succès!", updated), HttpStatus.OK);
     }

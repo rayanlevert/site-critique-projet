@@ -5,8 +5,14 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,18 +45,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Autowired
     private RoleRepository roleRepository;
-    
+
+    @Autowired
+    private Validator validator;
+
     @Override
     public UserDto loadByUsernameAndPassword(String username, String password) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        System.out.println("username" + username);
-        System.out.println("user" + user);
-        System.out.println("password" + password);
-        
+
         System.out.println(user);
         if (user != null) {
             boolean check = passwordCheck(password, user.getPassword());
-            if(check) {
+            if (check) {
                 return getUserById(user.getId());
             }
             throw new UsernameNotFoundException(
@@ -88,26 +94,32 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public User registerNewUserAccount(User u) throws EmailExistsException, UsernameExistsException {
+    public User registerNewUserAccount(User u) throws EmailExistsException, UsernameExistsException, ConstraintViolationException {
         if (emailExist(u)) {
             throw new EmailExistsException("There is an account with that email adress: " + u.getEmail());
         }
 
-        if(usernameExist(u)) {
+        if (usernameExist(u)) {
             throw new UsernameExistsException("Il y a déjà un utilisateur avec ce pseudonyme: " + u.getUsername());
         }
 
         User user = new User();
-        
+
         user.setFirstname(u.getFirstname());
         user.setLastname(u.getLastname());
         user.setPassword(passwordEncoder.encode(u.getPassword()));
         user.setEmail(u.getEmail());
         user.setUsername(u.getUsername());
 
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
+
         List<Role> roles = new ArrayList<Role>();
         if (u.getRoles() != null) {
-            for(Role role : u.getRoles()) {
+            for (Role role : u.getRoles()) {
                 roles.add(roleRepository.findByName(role.getName()));
             }
         }
@@ -128,11 +140,25 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         if (usernameExist(u)) {
             throw new UsernameExistsException("Il y a déjà un utilisateur avec ce pseudonyme: " + u.getUsername());
         }
-        System.out.println("avant pas " + u.getPassword());
+
         if (checkPassword) {
             u.setPassword(passwordEncoder.encode(u.getPassword()));
         }
-        System.out.println("apres pas " + u.getPassword());
+
+        Set<ConstraintViolation<User>> violations = validator.validate(u);
+
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
+        System.out.println(u);
+        List<Role> roles = new ArrayList<Role>();
+        if (u.getRoles() != null) {
+            for (Role role : u.getRoles()) {
+                roles.add(roleRepository.findByName(role.getName()));
+            }
+        }
+        System.out.println(roles);
+        u.setRoles(roles);
         return userRepository.saveAndFlush(u);
     }
 
@@ -183,7 +209,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         UserDto u = getUserById(id);
         if (password.equals(u.getPassword())) {
             return false;
-        } return true;
+        }
+        return true;
     }
 
     @Override
@@ -201,5 +228,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         UserDto u = getUserById(id);
         userRepository.deleteById(id);
         return u;
+    }
+
+    @Override
+    public UserDto getUserByUsername(String username) throws UsernameExistsException {
+        ModelMapper m = new ModelMapper();
+        return m.map(userRepository.findByUsername(username), UserDto.class);
     }
 }

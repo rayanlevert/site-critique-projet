@@ -1,5 +1,7 @@
 package fr.dawan.sitecritiqueprojet.controllers;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,13 @@ public class RestExceptionHandlerController extends ResponseEntityExceptionHandl
     protected ResponseEntity<Object> handleUsernameAlreadyExists(UsernameExistsException ex, String username) {
         ApiResponse apiResponse = new ApiResponse(HttpStatus.CONFLICT);
         apiResponse.setMessage(ex.getMessage() + ": " + username);
+
+        return buildResponseEntity(apiResponse);
+    }
+
+    protected ResponseEntity<Object> handleViolationException(ConstraintViolationException ex) {
+        ApiResponse apiResponse = new ApiResponse(HttpStatus.BAD_REQUEST);
+        apiResponse.setMessage(ex.getMessage());
 
         return buildResponseEntity(apiResponse);
     }

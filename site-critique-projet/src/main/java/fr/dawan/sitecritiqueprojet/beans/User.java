@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -36,12 +37,13 @@ public class User {
     private String password;
     
     @Column(name = "email", length = 255, nullable = false, unique = true)
+    @Email
     private String email;
     
     @Column(name = "enabled")
     private boolean enabled;
     
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
         name = "role_users", 
         joinColumns = @JoinColumn(
