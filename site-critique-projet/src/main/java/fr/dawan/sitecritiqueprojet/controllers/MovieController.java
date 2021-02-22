@@ -102,7 +102,7 @@ public class MovieController {
     }
     
     @DeleteMapping(value="/{id}")
-    public void deleteMovie( @PathVariable long id )
+    public void deleteMovie( @PathVariable("id") long id )
     {
         iMovieService.deleteById(id);
     }
