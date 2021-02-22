@@ -41,7 +41,7 @@ public class User {
     @Column(name = "enabled")
     private boolean enabled;
     
-    @ManyToMany()
+    @ManyToMany
     @JoinTable(
         name = "role_users", 
         joinColumns = @JoinColumn(

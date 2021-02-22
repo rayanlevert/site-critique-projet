@@ -20,7 +20,7 @@ import fr.dawan.sitecritiqueprojet.repositories.RoleRepository;
 public class SetupDataLoader implements
   ApplicationListener<ContextRefreshedEvent> {
 
-    boolean alreadySetup = false;
+    boolean alreadySetup = true;
  
     @Autowired
     private RoleRepository roleRepository;
