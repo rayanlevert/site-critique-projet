@@ -24,6 +24,7 @@ public class UserMapper {
             mapper.map(src -> src.getAge(), UserDto::setAge);
             mapper.map(src -> src.getDescription(), UserDto::setDescription);
             mapper.map(src -> src.getCatchPhrase(), UserDto::setCatchPhrase);
+            mapper.map(src -> src.getRegistrationDate(), UserDto::setRegistrationDate);
         });
         return mapper.map(u, UserDto.class);
     }
@@ -41,6 +42,7 @@ public class UserMapper {
             mapper.map(src -> src.getDescription(), User::setDescription);
             mapper.map(src -> src.getCatchPhrase(), User::setCatchPhrase);
             mapper.map(src -> src.getRoles(), User::setRoles);
+            mapper.map(src -> src.getRegistrationDate(), User::setRegistrationDate);
         });
         return mapper.map(uDto, User.class);
     }
