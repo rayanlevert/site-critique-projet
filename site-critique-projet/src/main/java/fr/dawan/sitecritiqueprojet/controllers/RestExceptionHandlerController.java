@@ -35,7 +35,7 @@ public class RestExceptionHandlerController extends ResponseEntityExceptionHandl
     protected ResponseEntity<Object> handleViolationException(ConstraintViolationException ex) {
         ApiResponse apiResponse = new ApiResponse(HttpStatus.BAD_REQUEST);
         apiResponse.setMessage(ex.getMessage());
-
+        
         return buildResponseEntity(apiResponse);
     }
 

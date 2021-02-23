@@ -1,5 +1,7 @@
 package fr.dawan.sitecritiqueprojet.beans;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,6 +25,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(name = "civilite", length = 255, nullable = false)
+    private String civilite;
     
     @Column(name = "username", length = 255, nullable = false)
     private String username;
@@ -32,12 +37,24 @@ public class User {
     
     @Column(name = "firstname", length = 255, nullable = false)
     private String firstname;
+
+    @Column(name = "age", nullable = false)
+    private int age;
+
+    @Column(name = "registration_date")
+    private LocalDateTime registrationDate;
+
+    @Column(name = "description", length = 1000, nullable = true)
+    private String description;
+
+    @Column(name = "catch_phrase", length = 1000, nullable = true)
+    private String catchPhrase;
     
     @Column(name = "password", length = 255, nullable = false)
     private String password;
     
     @Column(name = "email", length = 255, nullable = false, unique = true)
-    @Email
+    @Email(message = "L'email doit être une adresse éléctronique syntaxiquement correcte.")
     private String email;
     
     @Column(name = "enabled")
@@ -159,6 +176,46 @@ public class User {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getCivilite() {
+        return civilite;
+    }
+
+    public void setCivilite(String civilite) {
+        this.civilite = civilite;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDateTime getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(LocalDateTime registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public String getCatchPhrase() {
+        return catchPhrase;
+    }
+
+    public void setCatchPhrase(String catchPhrase) {
+        this.catchPhrase = catchPhrase;
     }
 
     @Override

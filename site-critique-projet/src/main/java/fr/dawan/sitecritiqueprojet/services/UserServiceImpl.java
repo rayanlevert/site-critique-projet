@@ -1,5 +1,7 @@
 package fr.dawan.sitecritiqueprojet.services;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -110,6 +112,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         user.setPassword(passwordEncoder.encode(u.getPassword()));
         user.setEmail(u.getEmail());
         user.setUsername(u.getUsername());
+        user.setRegistrationDate(LocalDateTime.now());
+        user.setAge(u.getAge());
+        user.setCivilite(u.getCivilite());
+        user.setDescription(u.getDescription());
+        user.setCatchPhrase(u.getCatchPhrase());
 
         Set<ConstraintViolation<User>> violations = validator.validate(user);
 
@@ -150,15 +157,15 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
-        System.out.println(u);
+        
         List<Role> roles = new ArrayList<Role>();
         if (u.getRoles() != null) {
             for (Role role : u.getRoles()) {
                 roles.add(roleRepository.findByName(role.getName()));
             }
         }
-        System.out.println(roles);
         u.setRoles(roles);
+
         return userRepository.saveAndFlush(u);
     }
 
