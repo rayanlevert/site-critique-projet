@@ -1,5 +1,6 @@
 package fr.dawan.sitecritiqueprojet.beans;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class User {
     private int age;
 
     @Column(name = "registration_date")
-    private Date registrationDate;
+    private String registrationDate;
 
     @Column(name = "description", length = 65535, nullable = true)
     @Type(type = "text")
@@ -190,11 +191,11 @@ public class User {
         this.description = description;
     }
 
-    public Date getRegistrationDate() {
+    public String getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(Date registrationDate) {
+    public void setRegistrationDate(String registrationDate) {
         this.registrationDate = registrationDate;
     }
 
@@ -208,8 +209,22 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", username=" + username + ", lastname=" + lastname + ", firstname=" + firstname
-                + ", password=" + password + ", email=" + email + ", roles=" + roles
-                + ", comments=" + comments + ", reviews=" + reviews + "]";
+        return "{" +
+            " id='" + getId() + "'" +
+            ", civilite='" + getCivilite() + "'" +
+            ", username='" + getUsername() + "'" +
+            ", lastname='" + getLastname() + "'" +
+            ", firstname='" + getFirstname() + "'" +
+            ", age='" + getAge() + "'" +
+            ", registrationDate='" + getRegistrationDate() + "'" +
+            ", description='" + getDescription() + "'" +
+            ", catchPhrase='" + getCatchPhrase() + "'" +
+            ", password='" + getPassword() + "'" +
+            ", email='" + getEmail() + "'" +
+            ", roles='" + getRoles() + "'" +
+            ", comments='" + getComments() + "'" +
+            ", reviews='" + getReviews() + "'" +
+            "}";
     }
+    
 }

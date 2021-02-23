@@ -1,5 +1,7 @@
 package fr.dawan.sitecritiqueprojet.services;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -107,19 +109,19 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         }
 
         User user = new User();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
         user.setFirstname(u.getFirstname());
         user.setLastname(u.getLastname());
         user.setPassword(passwordEncoder.encode(u.getPassword()));
         user.setEmail(u.getEmail());
         user.setUsername(u.getUsername());
-        user.setRegistrationDate(new Date());
+        user.setRegistrationDate(dateFormat.format(new Date()));
         user.setAge(u.getAge());
         user.setCivilite(u.getCivilite());
         user.setDescription(u.getDescription());
         user.setCatchPhrase(u.getCatchPhrase());
-
-        System.out.println(user);
+        
         Set<ConstraintViolation<User>> violations = validator.validate(user);
 
         if (!violations.isEmpty()) {

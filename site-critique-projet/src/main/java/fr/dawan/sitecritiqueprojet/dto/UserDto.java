@@ -1,6 +1,7 @@
 package fr.dawan.sitecritiqueprojet.dto;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import fr.dawan.sitecritiqueprojet.beans.Role;
@@ -17,7 +18,7 @@ public class UserDto {
     private int age;
     private String description;
     private String catchPhrase;
-    private Date registrationDate;
+    private String registrationDate;
     private List<Role> roles;
     
     public long getId() {
@@ -84,11 +85,11 @@ public class UserDto {
         this.age = age;
     }
 
-    public Date getRegistrationDate() {
+    public String getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(Date registrationDate) {
+    public void setRegistrationDate(String registrationDate) {
         this.registrationDate = registrationDate;
     }
 
