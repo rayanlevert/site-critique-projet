@@ -1,24 +1,21 @@
 package fr.dawan.sitecritiqueprojet.beans;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.Type;
 
 @Entity
 public class User {
@@ -45,7 +42,8 @@ public class User {
     @Column(name = "registration_date")
     private Date registrationDate;
 
-    @Column(name = "description", length = 1000, nullable = true)
+    @Column(name = "description", length = 65535, nullable = true)
+    @Type(type = "text")
     private String description;
 
     @Column(name = "catch_phrase", length = 1000, nullable = true)
@@ -57,9 +55,6 @@ public class User {
     @Column(name = "email", length = 255, nullable = false, unique = true)
     @Email(message = "L'email doit être une adresse éléctronique syntaxiquement correcte.")
     private String email;
-    
-    @Column(name = "enabled")
-    private boolean enabled;
     
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
@@ -171,14 +166,6 @@ public class User {
         this.reviews = reviews;
     }
 
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
     public int getAge() {
         return age;
     }
@@ -222,7 +209,7 @@ public class User {
     @Override
     public String toString() {
         return "User [id=" + id + ", username=" + username + ", lastname=" + lastname + ", firstname=" + firstname
-                + ", password=" + password + ", email=" + email + ", enabled=" + enabled + ", roles=" + roles
+                + ", password=" + password + ", email=" + email + ", roles=" + roles
                 + ", comments=" + comments + ", reviews=" + reviews + "]";
     }
 }

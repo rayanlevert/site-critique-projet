@@ -119,6 +119,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         user.setDescription(u.getDescription());
         user.setCatchPhrase(u.getCatchPhrase());
 
+        System.out.println(user);
         Set<ConstraintViolation<User>> violations = validator.validate(user);
 
         if (!violations.isEmpty()) {

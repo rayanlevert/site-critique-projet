@@ -20,7 +20,6 @@ public class UserMapper {
             mapper.map(src -> src.getFirstname(), UserDto::setFirstname);
             mapper.map(src -> src.getPassword(), UserDto::setPassword);
             mapper.map(src -> src.getEmail(), UserDto::setEmail);
-            mapper.map(src -> src.isEnabled(), UserDto::setEnabled);
             mapper.map(src -> src.getAge(), UserDto::setAge);
             mapper.map(src -> src.getDescription(), UserDto::setDescription);
             mapper.map(src -> src.getCatchPhrase(), UserDto::setCatchPhrase);
@@ -37,7 +36,6 @@ public class UserMapper {
             mapper.map(src -> src.getFirstname(), User::setFirstname);
             mapper.map(src -> src.getPassword(), User::setPassword);
             mapper.map(src -> src.getEmail(), User::setEmail);
-            mapper.map(src -> src.isEnabled(), User::setEnabled);
             mapper.map(src -> src.getAge(), User::setAge);
             mapper.map(src -> src.getDescription(), User::setDescription);
             mapper.map(src -> src.getCatchPhrase(), User::setCatchPhrase);
