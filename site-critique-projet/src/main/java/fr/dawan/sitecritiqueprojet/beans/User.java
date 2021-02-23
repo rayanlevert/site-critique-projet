@@ -2,6 +2,7 @@ package fr.dawan.sitecritiqueprojet.beans;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -42,7 +43,7 @@ public class User {
     private int age;
 
     @Column(name = "registration_date")
-    private LocalDateTime registrationDate;
+    private Date registrationDate;
 
     @Column(name = "description", length = 1000, nullable = true)
     private String description;
@@ -202,11 +203,11 @@ public class User {
         this.description = description;
     }
 
-    public LocalDateTime getRegistrationDate() {
+    public Date getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(LocalDateTime registrationDate) {
+    public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
     }
 

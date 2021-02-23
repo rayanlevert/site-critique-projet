@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -112,7 +113,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         user.setPassword(passwordEncoder.encode(u.getPassword()));
         user.setEmail(u.getEmail());
         user.setUsername(u.getUsername());
-        user.setRegistrationDate(LocalDateTime.now());
+        user.setRegistrationDate(new Date());
         user.setAge(u.getAge());
         user.setCivilite(u.getCivilite());
         user.setDescription(u.getDescription());

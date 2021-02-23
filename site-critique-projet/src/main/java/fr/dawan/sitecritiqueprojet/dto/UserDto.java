@@ -13,6 +13,9 @@ public class UserDto {
     private String password;
     private String email;
     private boolean enabled;
+    private int age;
+    private String description;
+    private String catchPhrase;
     private List<Role> roles;
     
     public long getId() {
@@ -69,6 +72,30 @@ public class UserDto {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCatchPhrase() {
+        return catchPhrase;
+    }
+
+    public void setCatchPhrase(String catchPhrase) {
+        this.catchPhrase = catchPhrase;
     }
 
     public List<Role> getRoles() {
