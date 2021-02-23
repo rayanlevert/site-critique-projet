@@ -62,6 +62,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         if (user != null) {
             boolean check = passwordCheck(password, user.getPassword());
             if (check) {
+                System.out.println(user);
                 return getUserById(user.getId());
             }
             throw new UsernameNotFoundException(
@@ -116,7 +117,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         user.setPassword(passwordEncoder.encode(u.getPassword()));
         user.setEmail(u.getEmail());
         user.setUsername(u.getUsername());
-        user.setRegistrationDate(dateFormat.format(new Date()));
+        user.setRegistrationDate(new Date());
+        user.setLastConnection(dateFormat.format(new Date()));
         user.setAge(u.getAge());
         user.setCivilite(u.getCivilite());
         user.setDescription(u.getDescription());

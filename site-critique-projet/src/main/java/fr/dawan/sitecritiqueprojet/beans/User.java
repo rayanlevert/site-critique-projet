@@ -41,7 +41,10 @@ public class User {
     private int age;
 
     @Column(name = "registration_date")
-    private String registrationDate;
+    private Date registrationDate;
+
+    @Column(name = "last_connection")
+    private String lastConnection;
 
     @Column(name = "description", length = 65535, nullable = true)
     @Type(type = "text")
@@ -191,11 +194,11 @@ public class User {
         this.description = description;
     }
 
-    public String getRegistrationDate() {
+    public Date getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(String registrationDate) {
+    public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
     }
 
@@ -205,6 +208,14 @@ public class User {
 
     public void setCatchPhrase(String catchPhrase) {
         this.catchPhrase = catchPhrase;
+    }
+
+    public String getLastConnection() {
+        return lastConnection;
+    }
+    
+    public void setLastConnection(String lastConnection) {
+        this.lastConnection = lastConnection;
     }
 
     @Override

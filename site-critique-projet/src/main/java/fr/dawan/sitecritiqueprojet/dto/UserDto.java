@@ -18,7 +18,7 @@ public class UserDto {
     private int age;
     private String description;
     private String catchPhrase;
-    private String registrationDate;
+    private Date registrationDate;
     private List<Role> roles;
     
     public long getId() {
@@ -85,11 +85,11 @@ public class UserDto {
         this.age = age;
     }
 
-    public String getRegistrationDate() {
+    public Date getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(String registrationDate) {
+    public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
     }
 
