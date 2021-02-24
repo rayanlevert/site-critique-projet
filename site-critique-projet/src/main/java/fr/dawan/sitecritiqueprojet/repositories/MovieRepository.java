@@ -14,7 +14,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     
     //search with filters
     
-    @Query("SELECT m from Movie m where m.title LIKE %:search% AND m.genre = :filterValue")
+    @Query("SELECT m from Movie m where m.title LIKE %:search% AND m.genre LIKE %:filterValue%")
     List<Movie> searchByGenre(String search, String filterValue);
 
     @Query("SELECT m from Movie m where m.title LIKE %:search% AND m.realisator = :filterValue")

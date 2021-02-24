@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import fr.dawan.sitecritiqueprojet.beans.Article;
 import fr.dawan.sitecritiqueprojet.beans.Book;
 import fr.dawan.sitecritiqueprojet.beans.Game;
 import fr.dawan.sitecritiqueprojet.beans.Movie;
@@ -13,6 +15,10 @@ import fr.dawan.sitecritiqueprojet.beans.Search;
 import fr.dawan.sitecritiqueprojet.services.BookService;
 import fr.dawan.sitecritiqueprojet.services.GameService;
 import fr.dawan.sitecritiqueprojet.services.MovieService;
+
+import java.lang.reflect.Array;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -57,7 +63,7 @@ public class ArticleController {
         List<Game> games = iGameService.findAll(page,size);
         List<Book> books = iBookService.findAll(page,size);
         res = new Search(movies, games, books);
-        return res;   
+        return res; 
     }
 
 }
