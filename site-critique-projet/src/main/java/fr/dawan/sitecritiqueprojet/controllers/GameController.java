@@ -37,6 +37,12 @@ public class GameController {
         Game game = iGameService.findOneById(id);
         return game;
     }
+    @GetMapping("/byTitle/{title}")
+    public Game getGameByTitle(@PathVariable("title") String title)
+    {
+        Game game = iGameService.findOneByTitle(title);
+        return game;
+    }
     
     
     /*

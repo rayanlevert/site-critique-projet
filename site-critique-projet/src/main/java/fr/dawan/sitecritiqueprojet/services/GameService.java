@@ -9,7 +9,7 @@ public interface GameService {
     public List<Game> findAll(int page, int i);
     public List<Game> findAll();
     public Game findOneById(long id);
-    
+    public Game findOneByTitle(String title);
     /* CRUD */
     public Game saveOrUpdate(Game game);
     public boolean deleteById(long id);

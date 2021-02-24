@@ -153,4 +153,17 @@ public class GameServiceImpl implements GameService {
         }
         return games;
     }
+    @Override
+    public Game findOneByTitle(String title) {
+        Game game;
+        
+        try {
+            game = gameRepository.findOneByTitle(title);
+            //game = gameOpt.get();
+            System.out.println(game);
+        } catch (Exception e) {
+            e.printStackTrace();
+            game = null;
+        }
+        return game;    }
 }
