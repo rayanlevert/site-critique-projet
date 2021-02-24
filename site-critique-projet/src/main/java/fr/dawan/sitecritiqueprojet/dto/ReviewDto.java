@@ -15,6 +15,7 @@ public class ReviewDto implements Serializable{
 	private long articleId;
 	private String userUsername;
 	private String articleTitle;
+	private String discriminator;
 
 	public long getIdReview() {
 		return idReview;
@@ -87,5 +88,30 @@ public class ReviewDto implements Serializable{
 	public void setArticleTitle(String articleTitle) {
 		this.articleTitle = articleTitle;
 	}
+
+	public String getDiscriminator() {
+		return discriminator;
+	}
+
+	public void setDiscriminator(String discriminator) {
+		this.discriminator = discriminator;
+	}
+
+	@Override
+	public String toString() {
+		return "{" +
+			" idReview='" + getIdReview() + "'" +
+			", titleReview='" + getTitleReview() + "'" +
+			", contentReview='" + getContentReview() + "'" +
+			", noteReview='" + getNoteReview() + "'" +
+			", publishDate='" + getPublishDate() + "'" +
+			", userId='" + getUserId() + "'" +
+			", articleId='" + getArticleId() + "'" +
+			", userUsername='" + getUserUsername() + "'" +
+			", articleTitle='" + getArticleTitle() + "'" +
+			", discriminator='" + getDiscriminator() + "'" +
+			"}";
+	}
+
 
 }

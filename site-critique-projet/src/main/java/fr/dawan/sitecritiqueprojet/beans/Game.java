@@ -79,6 +79,19 @@ public class Game extends Article {
 	public void setResume(String resume) {
 		this.resume = resume;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "{" +
+			" genre='" + getGenre() + "'" +
+			", developer='" + getDeveloper() + "'" +
+			", publisher='" + getPublisher() + "'" +
+			", platform='" + getPlatform() + "'" +
+			", resume='" + getResume() + "'" +
+			"}" + super.toString();
+	}
 	
 	
 	

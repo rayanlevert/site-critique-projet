@@ -60,6 +60,9 @@ public class Article implements Serializable{
     @Column(name="webContent")
     @Lob
     protected String webContent;
+
+    @Column(name = "discriminator", insertable = false, updatable = false)
+    private String discriminator;
     
     public String getWebContent() {
         return webContent;
@@ -142,6 +145,31 @@ public class Article implements Serializable{
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
+
+    public String getDiscriminator() {
+        return discriminator;
+    }
+
+    public void setDiscriminator(String discriminator) {
+        this.discriminator = discriminator;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", title='" + getTitle() + "'" +
+            ", reviews='" + getReviews() + "'" +
+            ", publishDate='" + getPublishDate() + "'" +
+            ", creationArticleDate='" + getCreationArticleDate() + "'" +
+            ", minAge='" + getMinAge() + "'" +
+            ", valid='" + isValid() + "'" +
+            ", webContent='" + getWebContent() + "'" +
+            ", discriminator='" + getDiscriminator() + "'" +
+            "}";
+    }
+
+
     
     
     

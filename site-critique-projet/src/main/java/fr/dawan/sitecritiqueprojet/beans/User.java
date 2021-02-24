@@ -218,6 +218,7 @@ public class User {
         this.lastConnection = lastConnection;
     }
 
+
     @Override
     public String toString() {
         return "{" +
@@ -228,6 +229,7 @@ public class User {
             ", firstname='" + getFirstname() + "'" +
             ", age='" + getAge() + "'" +
             ", registrationDate='" + getRegistrationDate() + "'" +
+            ", lastConnection='" + getLastConnection() + "'" +
             ", description='" + getDescription() + "'" +
             ", catchPhrase='" + getCatchPhrase() + "'" +
             ", password='" + getPassword() + "'" +
@@ -237,5 +239,6 @@ public class User {
             ", reviews='" + getReviews() + "'" +
             "}";
     }
+    
     
 }

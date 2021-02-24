@@ -57,12 +57,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public UserDto loadByUsernameAndPassword(String username, String password) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy à HH:mm:ss");
 
         System.out.println(user);
         if (user != null) {
             boolean check = passwordCheck(password, user.getPassword());
             if (check) {
-                System.out.println(user);
+                user.setLastConnection(dateFormat.format(new Date()));
+                user = userRepository.save(user);
                 return getUserById(user.getId());
             }
             throw new UsernameNotFoundException(
@@ -110,7 +112,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         }
 
         User user = new User();
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy à HH:mm:ss");
 
         user.setFirstname(u.getFirstname());
         user.setLastname(u.getLastname());

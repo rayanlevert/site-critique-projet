@@ -45,6 +45,7 @@ public class GameServiceImpl implements GameService {
         try {
             Optional<Game> gameOpt = gameRepository.findById(id);
             game = gameOpt.get();
+            System.out.println(game);
         } catch (Exception e) {
             e.printStackTrace();
             game = null;

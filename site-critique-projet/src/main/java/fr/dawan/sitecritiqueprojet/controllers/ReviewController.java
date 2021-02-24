@@ -32,7 +32,7 @@ public class ReviewController {
 	}
 	
 	@GetMapping(value = "/user/{id}", produces ="application/json")
-	public List<ReviewDto> getReviewsByUserId(@PathVariable("id") long id){
+	public List<Review> getReviewsByUserId(@PathVariable("id") long id){
 		return reviewService.findReviewByUserId(id);
 	}
 	

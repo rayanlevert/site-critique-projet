@@ -37,15 +37,11 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public List<ReviewDto> findReviewByUserId(long id) {
+	public List<Review> findReviewByUserId(long id) {
 		try {
 			List<Review> listReviews = reviewRepository.findReviewByUserId(id);
-			List<ReviewDto> rd = new ArrayList<ReviewDto>();
-			ModelMapper m = new ModelMapper();
-			for (Review r : listReviews) {
-				rd.add(m.map(r, ReviewDto.class));
-			}
-			return rd;
+			System.out.println(listReviews);
+			return listReviews;
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Erreur lors de la récupération des films");
@@ -62,6 +58,7 @@ public class ReviewServiceImpl implements ReviewService {
 			for (Review r : listReviews) {
 				rd.add(m.map(r, ReviewDto.class));
 			}
+			System.out.println(rd);
 			return rd;
 		} catch (Exception e) {
 			e.printStackTrace();

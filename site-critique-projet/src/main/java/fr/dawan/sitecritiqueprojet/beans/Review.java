@@ -106,5 +106,6 @@ public class Review implements Serializable {
 	public void setPublishDate(Date publishDate) {
 		this.publishDate = publishDate;
 	}
+
 	
 }

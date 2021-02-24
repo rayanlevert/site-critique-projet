@@ -19,6 +19,7 @@ public class UserDto {
     private String description;
     private String catchPhrase;
     private Date registrationDate;
+    private String lastConnection;
     private List<Role> roles;
     
     public long getId() {
@@ -91,6 +92,14 @@ public class UserDto {
 
     public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    public String getLastConnection() {
+        return lastConnection;
+    }
+
+    public void setLastConnection(String lastConnection) {
+        this.lastConnection = lastConnection;
     }
 
     public String getDescription() {
